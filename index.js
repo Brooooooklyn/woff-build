@@ -246,6 +246,6 @@ if (!nativeBinding) {
   throw new Error(`Failed to load native binding`)
 }
 
-const { convertTtfToWoff2 } = nativeBinding
+const { convertTTFToWOFF2 } = nativeBinding
 
-module.exports.convertTtfToWoff2 = convertTtfToWoff2
+module.exports.convertTTFToWOFF2 = convertTTFToWOFF2

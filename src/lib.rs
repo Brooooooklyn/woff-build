@@ -17,7 +17,7 @@ mod woff2 {
   }
 }
 
-#[napi]
+#[napi(js_name = "convertTTFToWOFF2")]
 pub fn convert_ttf_to_woff2(input: JsBuffer) -> Result<Buffer> {
   let input_buf_value = input.into_value()?;
   let len =

@@ -4,10 +4,10 @@ import { fileURLToPath } from 'url'
 
 import test from 'ava'
 
-import { convertTtfToWoff2 } from '../index.js'
+import { convertTTFToWOFF2 } from '../index.js'
 
 const fixture = await readFile(join(fileURLToPath(import.meta.url), '..', './iconsfont.ttf'))
 
 test('should be able to convert ttf to woff2', async (t) => {
-  t.notThrows(() => convertTtfToWoff2(fixture))
+  t.notThrows(() => convertTTFToWOFF2(fixture))
 })

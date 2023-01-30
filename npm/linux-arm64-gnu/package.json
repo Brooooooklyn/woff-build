@@ -1,6 +1,6 @@
 {
   "name": "@napi-rs/ttf2woff2-linux-arm64-gnu",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "os": [
     "linux"
   ],

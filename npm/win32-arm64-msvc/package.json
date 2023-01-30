@@ -1,6 +1,6 @@
 {
   "name": "@napi-rs/ttf2woff2-win32-arm64-msvc",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "os": [
     "win32"
   ],

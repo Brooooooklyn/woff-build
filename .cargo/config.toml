@@ -1,0 +1,9 @@
+[target.aarch64-apple-darwin]
+linker = "clang"
+rustflags = ["-C", "link-args=-fuse-ld=lld"]
+[target.x86_64-apple-darwin]
+linker = "clang"
+rustflags = ["-C", "link-args=-fuse-ld=lld"]
+[target.aarch64-unknown-linux-musl]
+linker = "aarch64-linux-musl-gcc"
+rustflags = ["-C", "target-feature=-crt-static"]

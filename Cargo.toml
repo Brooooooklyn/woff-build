@@ -1,0 +1,19 @@
+[package]
+edition = "2021"
+name = "napi-rs_ttf2woff2"
+version = "0.0.0"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+napi = { version = "2", default-features = false, features = ["napi3"] }
+napi-derive = "2"
+
+[build-dependencies]
+napi-build = "2"
+cc = "1"
+
+[profile.release]
+lto = true
+codegen-units = 1

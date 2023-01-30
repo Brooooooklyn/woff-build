@@ -1,0 +1,18 @@
+{
+  "name": "@napi-rs/ttf2woff2-win32-arm64-msvc",
+  "version": "0.0.0",
+  "os": [
+    "win32"
+  ],
+  "cpu": [
+    "arm64"
+  ],
+  "main": "ttf2woff2.win32-arm64-msvc.node",
+  "files": [
+    "ttf2woff2.win32-arm64-msvc.node"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">= 10"
+  }
+}

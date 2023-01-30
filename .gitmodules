@@ -1,0 +1,6 @@
+[submodule "woff2"]
+	path = woff2
+	url = git@github.com:google/woff2.git
+[submodule "brotli"]
+	path = brotli
+	url = git@github.com:dropbox/rust-brotli.git

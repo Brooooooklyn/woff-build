@@ -1,0 +1,18 @@
+{
+  "name": "@napi-rs/ttf2woff2-darwin-x64",
+  "version": "0.0.0",
+  "os": [
+    "darwin"
+  ],
+  "cpu": [
+    "x64"
+  ],
+  "main": "ttf2woff2.darwin-x64.node",
+  "files": [
+    "ttf2woff2.darwin-x64.node"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">= 10"
+  }
+}

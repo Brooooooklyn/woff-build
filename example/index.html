@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@napi-rs/ttf2woff2 Demo</title>
+    <style>
+        @font-face {
+            font-family: 'Roboto Flex';
+            src: url(./RobotoFlex-VF.woff2) format('woff2');
+            font-display: swap;
+        }
+
+        main {
+            max-width: 60em;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            font-family: 'Roboto Flex';
+            font-variation-settings: "opsz" 48, "slnt" 0, "GRAD" -50, "XTRA" 520, "YOPQ" 50, "YTAS" 838, "YTDE" -200, "YTFI" 736, "YTLC" 514, "YTUC" 700;
+        }
+
+        p {
+            font-size: 36px;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <h1>@napi-rs/ttf2woff2 Demo</h1>
+        <p>The page will use the Roboto Flex font in woff2 format, and then there should be no error message in the Console of the browser.</p>
+    </main>
+</body>
+</html>

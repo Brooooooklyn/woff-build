@@ -18,3 +18,15 @@ const fixture = await readFile(join(fileURLToPath(import.meta.url), '..', './ico
 
 convertTTFToWOFF2(fixture)
 ```
+
+## [Example](example/index.mjs)
+
+```shell
+node example/index.mjs
+
+✨ Done in 2460.2297090291977 ms
+TTF font length  :  1654412
+WOFF2 font length:  729564
+```
+
+Then open the [example HTML](example/index.html) in your browser, you can test the converted WOFF2 fonts.

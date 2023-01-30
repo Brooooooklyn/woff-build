@@ -1,9 +1,15 @@
-[target.aarch64-apple-darwin]
-linker = "clang"
-rustflags = ["-C", "link-args=-fuse-ld=lld"]
-[target.x86_64-apple-darwin]
-linker = "clang"
-rustflags = ["-C", "link-args=-fuse-ld=lld"]
+[target.x86_64-pc-windows-msvc]
+rustflags = ["-C", "link-args=/NODEFAULTLIB:libcmt.lib", "-C", "link-args=/FORCE:MULTIPLE"]
+[target.i686-pc-windows-msvc]
+rustflags = ["-C", "link-args=/NODEFAULTLIB:libcmt.lib", "-C", "link-args=/FORCE:MULTIPLE"]
+[target.aarch64-pc-windows-msvc]
+rustflags = ["-C", "link-args=/NODEFAULTLIB:libcmt.lib", "-C", "link-args=/FORCE:MULTIPLE"]
+[target.aarch64-linux-android]
+linker = "aarch64-linux-android24-clang"
+rustflags = ["-C", "link-args=-Wl,--allow-multiple-definition"]
+[target.armv7-linux-androideabi]
+linker = "armv7a-linux-androideabi24-clang"
+rustflags = ["-C", "link-args=-Wl,--allow-multiple-definition"]
 [target.aarch64-unknown-linux-musl]
 linker = "aarch64-linux-musl-gcc"
 rustflags = ["-C", "target-feature=-crt-static"]

@@ -10,6 +10,9 @@ crate-type = ["cdylib"]
 napi = { version = "2", default-features = false, features = ["napi3"] }
 napi-derive = "2"
 
+[target.'cfg(not(target_os = "macos"))'.dependencies]
+brotli-ffi = { path = "./brotli/c" }
+
 [build-dependencies]
 napi-build = "2"
 cc = "1"

@@ -38,5 +38,6 @@ pub fn convert_ttf_to_woff2(input: JsBuffer) -> Result<Buffer> {
       "ConvertTTFToWOFF2 failed".to_owned(),
     ));
   }
+  unsafe { output_buf.set_len(output_buf_len) };
   Ok(output_buf.into())
 }

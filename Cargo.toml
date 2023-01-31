@@ -8,7 +8,7 @@ crate-type = ["cdylib"]
 
 [dependencies]
 napi = { version = "2", default-features = false, features = ["napi3"] }
-napi-derive = { path = "../napi-rs-clean/crates/macro", version = "2" }
+napi-derive = { version = "2" }
 
 [target.'cfg(not(target_os = "macos"))'.dependencies]
 brotli-ffi = { path = "./brotli/c" }

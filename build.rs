@@ -56,7 +56,9 @@ fn main() {
       "woff2/src/normalize.cc",
       "woff2/src/woff2_common.cc",
       "woff2/src/transform.cc",
+      "woff2/src/woff2_out.cc",
       "woff2/src/woff2_enc.cc",
+      "woff2/src/woff2_dec.cc",
     ]);
 
   if compile_target.contains("windows") {
@@ -167,7 +169,7 @@ fn main() {
     }
   }
 
-  builder.file("src/encode.cpp").compile("woff2_encode");
+  builder.file("src/woff2_c.cpp").compile("woff2_encode");
 
   napi_build::setup();
 }

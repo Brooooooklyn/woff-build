@@ -5,3 +5,5 @@
 
 export function convertTTFToWOFF2(input: Buffer): Buffer
 export function convertTTFToWOFF2Async(input: Buffer, signal?: AbortSignal | undefined | null): Promise<Buffer>
+export function convertWOFF2ToTTF(input: Buffer): Buffer
+export function convertWOFF2ToTTFAsync(input: Buffer, signal?: AbortSignal | undefined | null): Promise<Buffer>

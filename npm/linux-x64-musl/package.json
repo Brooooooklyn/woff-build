@@ -1,6 +1,6 @@
 {
   "name": "@napi-rs/ttf2woff2-linux-x64-musl",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "os": [
     "linux"
   ],

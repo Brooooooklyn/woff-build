@@ -1,6 +1,6 @@
 {
   "name": "@napi-rs/ttf2woff2-android-arm64",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "os": [
     "android"
   ],

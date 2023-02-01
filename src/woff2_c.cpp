@@ -10,12 +10,20 @@ extern "C"
   bool ConvertTTFToWOFF2(const uint8_t *data, size_t length,
                          uint8_t *result, size_t *result_length)
   {
+    if (!data || !length || !result || !result_length) {
+      return false;
+    }
+
     return woff2::ConvertTTFToWOFF2(data, length, result, result_length);
   }
 
   bool ConvertWOFF2ToTTF(
       const uint8_t *data, size_t length, Woff2MemoryOut *out)
   {
+    if (!data || !length || !out) {
+      return false;
+    }
+
     std::allocator<uint8_t> alloc;
     size_t result_length = woff2::ComputeWOFF2FinalSize(data, length);
     if (result_length == 0)

@@ -11,7 +11,7 @@ typedef struct Woff2MemoryOutInner Woff2MemoryOutInner;
 
 struct Woff2MemoryOut
 {
-  u_int8_t *data;
+  uint8_t *data;
   size_t length;
   Woff2MemoryOutInner *inner;
 };

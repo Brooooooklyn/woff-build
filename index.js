@@ -11,7 +11,7 @@ function isMusl() {
   // For Node 10
   if (!process.report || typeof process.report.getReport !== 'function') {
     try {
-      const lddPath = require('child_process').execSync('which ldd').toString().trim();
+      const lddPath = require('child_process').execSync('which ldd').toString().trim()
       return readFileSync(lddPath, 'utf8').includes('musl')
     } catch (e) {
       return true
@@ -56,9 +56,7 @@ switch (platform) {
   case 'win32':
     switch (arch) {
       case 'x64':
-        localFileExisted = existsSync(
-          join(__dirname, 'ttf2woff2.win32-x64-msvc.node')
-        )
+        localFileExisted = existsSync(join(__dirname, 'ttf2woff2.win32-x64-msvc.node'))
         try {
           if (localFileExisted) {
             nativeBinding = require('./ttf2woff2.win32-x64-msvc.node')
@@ -70,9 +68,7 @@ switch (platform) {
         }
         break
       case 'ia32':
-        localFileExisted = existsSync(
-          join(__dirname, 'ttf2woff2.win32-ia32-msvc.node')
-        )
+        localFileExisted = existsSync(join(__dirname, 'ttf2woff2.win32-ia32-msvc.node'))
         try {
           if (localFileExisted) {
             nativeBinding = require('./ttf2woff2.win32-ia32-msvc.node')
@@ -84,9 +80,7 @@ switch (platform) {
         }
         break
       case 'arm64':
-        localFileExisted = existsSync(
-          join(__dirname, 'ttf2woff2.win32-arm64-msvc.node')
-        )
+        localFileExisted = existsSync(join(__dirname, 'ttf2woff2.win32-arm64-msvc.node'))
         try {
           if (localFileExisted) {
             nativeBinding = require('./ttf2woff2.win32-arm64-msvc.node')
@@ -125,9 +119,7 @@ switch (platform) {
         }
         break
       case 'arm64':
-        localFileExisted = existsSync(
-          join(__dirname, 'ttf2woff2.darwin-arm64.node')
-        )
+        localFileExisted = existsSync(join(__dirname, 'ttf2woff2.darwin-arm64.node'))
         try {
           if (localFileExisted) {
             nativeBinding = require('./ttf2woff2.darwin-arm64.node')
@@ -161,9 +153,7 @@ switch (platform) {
     switch (arch) {
       case 'x64':
         if (isMusl()) {
-          localFileExisted = existsSync(
-            join(__dirname, 'ttf2woff2.linux-x64-musl.node')
-          )
+          localFileExisted = existsSync(join(__dirname, 'ttf2woff2.linux-x64-musl.node'))
           try {
             if (localFileExisted) {
               nativeBinding = require('./ttf2woff2.linux-x64-musl.node')
@@ -174,9 +164,7 @@ switch (platform) {
             loadError = e
           }
         } else {
-          localFileExisted = existsSync(
-            join(__dirname, 'ttf2woff2.linux-x64-gnu.node')
-          )
+          localFileExisted = existsSync(join(__dirname, 'ttf2woff2.linux-x64-gnu.node'))
           try {
             if (localFileExisted) {
               nativeBinding = require('./ttf2woff2.linux-x64-gnu.node')
@@ -190,9 +178,7 @@ switch (platform) {
         break
       case 'arm64':
         if (isMusl()) {
-          localFileExisted = existsSync(
-            join(__dirname, 'ttf2woff2.linux-arm64-musl.node')
-          )
+          localFileExisted = existsSync(join(__dirname, 'ttf2woff2.linux-arm64-musl.node'))
           try {
             if (localFileExisted) {
               nativeBinding = require('./ttf2woff2.linux-arm64-musl.node')
@@ -203,9 +189,7 @@ switch (platform) {
             loadError = e
           }
         } else {
-          localFileExisted = existsSync(
-            join(__dirname, 'ttf2woff2.linux-arm64-gnu.node')
-          )
+          localFileExisted = existsSync(join(__dirname, 'ttf2woff2.linux-arm64-gnu.node'))
           try {
             if (localFileExisted) {
               nativeBinding = require('./ttf2woff2.linux-arm64-gnu.node')
@@ -218,9 +202,7 @@ switch (platform) {
         }
         break
       case 'arm':
-        localFileExisted = existsSync(
-          join(__dirname, 'ttf2woff2.linux-arm-gnueabihf.node')
-        )
+        localFileExisted = existsSync(join(__dirname, 'ttf2woff2.linux-arm-gnueabihf.node'))
         try {
           if (localFileExisted) {
             nativeBinding = require('./ttf2woff2.linux-arm-gnueabihf.node')

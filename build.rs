@@ -1,6 +1,9 @@
 extern crate napi_build;
 
 fn main() {
+  println!("cargo:rerun-if-changed=src/woff2_c.cpp");
+  println!("cargo:rerun-if-changed=src/woff2_c.hpp");
+
   let compile_target = std::env::var("TARGET").expect("TARGET");
   let compile_target_os = std::env::var("CARGO_CFG_TARGET_OS").expect("CARGO_CFG_TARGET_OS");
   let compile_target_env = std::env::var("CARGO_CFG_TARGET_ENV").expect("CARGO_CFG_TARGET_ENV");

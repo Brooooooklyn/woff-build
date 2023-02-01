@@ -1,11 +1,6 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "config:base",
-    "group:allNonMajor",
-    ":preserveSemverRanges",
-    ":disablePeerDependencies"
-  ],
+  "extends": ["config:base", "group:allNonMajor", ":preserveSemverRanges", ":disablePeerDependencies"],
   "labels": ["dependencies"],
   "packageRules": [
     {

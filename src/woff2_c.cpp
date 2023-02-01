@@ -18,12 +18,13 @@ extern "C"
   {
     std::allocator<uint8_t> alloc;
     size_t result_length = woff2::ComputeWOFF2FinalSize(data, length);
-    uint8_t *result = alloc.allocate(result_length);
     if (result_length == 0)
     {
       return false;
     }
-    auto memory_out = new woff2::WOFF2MemoryOut(result, result_length);
+    // the actually size could be larger than the `result_length`, give it a little more space
+    uint8_t *result = alloc.allocate(result_length + 4096);
+    auto memory_out = new woff2::WOFF2MemoryOut(result, result_length + 4096);
     out->inner = reinterpret_cast<Woff2MemoryOutInner *>(memory_out);
     out->data = result;
     out->length = result_length;

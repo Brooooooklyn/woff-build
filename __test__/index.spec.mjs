@@ -3,6 +3,7 @@ import { join } from 'path'
 import { fileURLToPath } from 'url'
 
 import test from 'ava'
+import * as fontkit from '@yisibl/fontkit'
 
 import { convertTTFToWOFF2, convertTTFToWOFF2Async, convertWOFF2ToTTF, convertWOFF2ToTTFAsync } from '../index.js'
 
@@ -10,23 +11,42 @@ const fixture = await readFile(join(fileURLToPath(import.meta.url), '..', './ico
 const fontawesome = await readFile(join(fileURLToPath(import.meta.url), '..', './fa-brands-400-v6.2.woff2'))
 
 test('should be able to convert ttf to woff2', (t) => {
-  t.notThrows(() => convertTTFToWOFF2(fixture))
+  const woff2Buffer = convertTTFToWOFF2(fixture)
+  t.is(fontkit.openSync(woff2Buffer).type, 'WOFF2')
+  t.is(fontkit.openSync(woff2Buffer).directory.tag, 'wOF2')
+  t.is(fontkit.openSync(woff2Buffer).stream.length, woff2Buffer.length)
 })
 
 test('should be able to convert ttf to woff2 async', async (t) => {
-  await t.notThrowsAsync(() => convertTTFToWOFF2Async(fixture))
+   const woff2Buffer = await convertTTFToWOFF2Async(fixture)
+
+  t.is(fontkit.openSync(woff2Buffer).type, 'WOFF2')
+  t.is(fontkit.openSync(woff2Buffer).directory.tag, 'wOF2')
+  t.is(fontkit.openSync(woff2Buffer).stream.length, woff2Buffer.length)
 })
 
 test('convert woff2 to ttf', (t) => {
-  t.notThrows(() => convertWOFF2ToTTF(fontawesome))
+  const ttfBuffer = convertWOFF2ToTTF(fontawesome)
+
+  t.is(fontkit.openSync(ttfBuffer).type, 'TTF')
+  t.is(fontkit.openSync(ttfBuffer).directory.tag, '\x00\x01\x00\x00')
+  t.is(fontkit.openSync(ttfBuffer).stream.length, ttfBuffer.length)
 })
 
 test('convert woff2 back to ttf', (t) => {
-  const woff2 = convertTTFToWOFF2(fixture)
-  t.notThrows(() => convertWOFF2ToTTF(woff2))
+  const woff2Buffer = convertTTFToWOFF2(fixture)
+  const ttfBuffer = convertWOFF2ToTTF(woff2Buffer)
+
+  t.is(fontkit.openSync(ttfBuffer).type, 'TTF')
+  t.is(fontkit.openSync(ttfBuffer).directory.tag, '\x00\x01\x00\x00')
+  t.is(fontkit.openSync(ttfBuffer).stream.length, ttfBuffer.length)
 })
 
 test('convert woff2 back to ttf async', async (t) => {
-  const woff2 = await convertTTFToWOFF2Async(fixture)
-  await t.notThrowsAsync(() => convertWOFF2ToTTFAsync(woff2))
+  const woff2Buffer = await convertTTFToWOFF2Async(fixture)
+  const ttfBuffer = await convertWOFF2ToTTFAsync(woff2Buffer)
+
+  t.is(fontkit.openSync(ttfBuffer).type, 'TTF')
+  t.is(fontkit.openSync(ttfBuffer).directory.tag, '\x00\x01\x00\x00')
+  t.is(fontkit.openSync(ttfBuffer).stream.length, ttfBuffer.length)
 })

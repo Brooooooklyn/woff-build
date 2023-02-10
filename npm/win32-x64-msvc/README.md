@@ -1,3 +1,3 @@
-# `@napi-rs/ttf2woff2-win32-x64-msvc`
+# `@napi-rs/woff-build-win32-x64-msvc`
 
-This is the **x86_64-pc-windows-msvc** binary for `@napi-rs/ttf2woff2`
+This is the **x86_64-pc-windows-msvc** binary for `@napi-rs/woff-build`

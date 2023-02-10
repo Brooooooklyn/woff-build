@@ -1,5 +1,5 @@
 {
-  "name": "@napi-rs/ttf2woff2-android-arm64",
+  "name": "@napi-rs/woff-build-android-arm64",
   "version": "0.0.5",
   "os": [
     "android"
@@ -7,9 +7,9 @@
   "cpu": [
     "arm64"
   ],
-  "main": "ttf2woff2.android-arm64.node",
+  "main": "woff-build.android-arm64.node",
   "files": [
-    "ttf2woff2.android-arm64.node"
+    "woff-build.android-arm64.node"
   ],
   "license": "MIT",
   "engines": {

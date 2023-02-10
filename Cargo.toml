@@ -1,6 +1,6 @@
 [package]
 edition = "2021"
-name = "napi-rs_ttf2woff2"
+name = "napi-rs-woff-build"
 version = "0.0.0"
 
 [lib]

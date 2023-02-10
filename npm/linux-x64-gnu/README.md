@@ -1,3 +1,3 @@
-# `@napi-rs/ttf2woff2-linux-x64-gnu`
+# `@napi-rs/woff-build-linux-x64-gnu`
 
-This is the **x86_64-unknown-linux-gnu** binary for `@napi-rs/ttf2woff2`
+This is the **x86_64-unknown-linux-gnu** binary for `@napi-rs/woff-build`

@@ -1,8 +1,8 @@
-# `@napi-rs/ttf2woff2`
+# `@napi-rs/woff-build`
 
-![CI](https://github.com/Brooooooklyn/ttf2woff2/workflows/CI/badge.svg)
-[![install size](https://packagephobia.com/badge?p=@napi-rs/ttf2woff2)](https://packagephobia.com/result?p=@napi-rs/ttf2woff2)
-[![Downloads](https://img.shields.io/npm/dm/@napi-rs/ttf2woff2.svg?sanitize=true)](https://npmcharts.com/compare/@napi-rs/ttf2woff2?minimal=true)
+![CI](https://github.com/Brooooooklyn/@napi-rs/woff-build/workflows/CI/badge.svg)
+[![install size](https://packagephobia.com/badge?p=@napi-rs/woff-build)](https://packagephobia.com/result?p=@napi-rs/woff-build)
+[![Downloads](https://img.shields.io/npm/dm/@napi-rs/woff-build.svg?sanitize=true)](https://npmcharts.com/compare/@napi-rs/woff-build?minimal=true)
 
 > 🚀 Help me to become a full-time open-source developer by [sponsoring me on Github](https://github.com/sponsors/Brooooooklyn)
 
@@ -12,7 +12,7 @@
 import { join } from 'path'
 import { fileURLToPath } from 'url'
 
-import { convertTTFToWOFF2 } from '@napi-rs/ttf2woff2'
+import { convertTTFToWOFF2 } from '@napi-rs/woff-build'
 
 const fixture = await readFile(join(fileURLToPath(import.meta.url), '..', './iconsfont.ttf'))
 

@@ -1,7 +1,7 @@
 name: CI
 env:
   DEBUG: napi:*
-  APP_NAME: ttf2woff2
+  APP_NAME: woff-build
   MACOSX_DEPLOYMENT_TARGET: '10.13'
 'on':
   push:
@@ -172,7 +172,7 @@ jobs:
           - host: windows-latest
             target: x86_64-pc-windows-msvc
           - host: macos-latest
-            target: 'x86_64-apple-darwin'
+            target: x86_64-apple-darwin
         node:
           - '14'
           - '16'

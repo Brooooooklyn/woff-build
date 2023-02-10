@@ -1,10 +1,10 @@
 {
-  "name": "@napi-rs/ttf2woff2",
+  "name": "@napi-rs/woff-build",
   "version": "0.0.5",
   "main": "index.js",
   "types": "index.d.ts",
   "napi": {
-    "name": "ttf2woff2",
+    "name": "woff-build",
     "triples": {
       "defaults": true,
       "additional": [
@@ -51,5 +51,8 @@
   "funding": {
     "type": "github",
     "url": "https://github.com/sponsors/Brooooooklyn"
+  },
+  "dependencies": {
+    "ava": "^5.2.0"
   }
 }

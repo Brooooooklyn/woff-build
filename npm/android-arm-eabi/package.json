@@ -1,5 +1,5 @@
 {
-  "name": "@napi-rs/ttf2woff2-android-arm-eabi",
+  "name": "@napi-rs/woff-build-android-arm-eabi",
   "version": "0.0.5",
   "os": [
     "android"
@@ -7,9 +7,9 @@
   "cpu": [
     "arm"
   ],
-  "main": "ttf2woff2.android-arm-eabi.node",
+  "main": "woff-build.android-arm-eabi.node",
   "files": [
-    "ttf2woff2.android-arm-eabi.node"
+    "woff-build.android-arm-eabi.node"
   ],
   "license": "MIT",
   "engines": {

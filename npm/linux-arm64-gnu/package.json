@@ -1,5 +1,5 @@
 {
-  "name": "@napi-rs/ttf2woff2-linux-arm64-gnu",
+  "name": "@napi-rs/woff-build-linux-arm64-gnu",
   "version": "0.0.5",
   "os": [
     "linux"
@@ -7,9 +7,9 @@
   "cpu": [
     "arm64"
   ],
-  "main": "ttf2woff2.linux-arm64-gnu.node",
+  "main": "woff-build.linux-arm64-gnu.node",
   "files": [
-    "ttf2woff2.linux-arm64-gnu.node"
+    "woff-build.linux-arm64-gnu.node"
   ],
   "license": "MIT",
   "engines": {

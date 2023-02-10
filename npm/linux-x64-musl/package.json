@@ -1,5 +1,5 @@
 {
-  "name": "@napi-rs/ttf2woff2-linux-x64-musl",
+  "name": "@napi-rs/woff-build-linux-x64-musl",
   "version": "0.0.5",
   "os": [
     "linux"
@@ -7,9 +7,9 @@
   "cpu": [
     "x64"
   ],
-  "main": "ttf2woff2.linux-x64-musl.node",
+  "main": "woff-build.linux-x64-musl.node",
   "files": [
-    "ttf2woff2.linux-x64-musl.node"
+    "woff-build.linux-x64-musl.node"
   ],
   "license": "MIT",
   "engines": {

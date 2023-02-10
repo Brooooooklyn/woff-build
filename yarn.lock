@@ -21,9 +21,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@napi-rs/ttf2woff2@workspace:.":
+"@napi-rs/woff-build@workspace:.":
   version: 0.0.0-use.local
-  resolution: "@napi-rs/ttf2woff2@workspace:."
+  resolution: "@napi-rs/woff-build@workspace:."
   dependencies:
     "@napi-rs/cli": ^2.14.5
     "@yisibl/fontkit": ^2.0.2

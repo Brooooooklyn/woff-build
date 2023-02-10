@@ -1,5 +1,5 @@
 {
-  "name": "@napi-rs/ttf2woff2-win32-ia32-msvc",
+  "name": "@napi-rs/woff-build-win32-ia32-msvc",
   "version": "0.0.5",
   "os": [
     "win32"
@@ -7,9 +7,9 @@
   "cpu": [
     "ia32"
   ],
-  "main": "ttf2woff2.win32-ia32-msvc.node",
+  "main": "woff-build.win32-ia32-msvc.node",
   "files": [
-    "ttf2woff2.win32-ia32-msvc.node"
+    "woff-build.win32-ia32-msvc.node"
   ],
   "license": "MIT",
   "engines": {

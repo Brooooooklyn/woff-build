@@ -24,7 +24,12 @@
     "@napi-rs/cli": "^2.14.5",
     "@yisibl/fontkit": "^2.0.2",
     "ava": "^5.1.1",
-    "prettier": "^2.8.3"
+    "benny": "^3.7.1",
+    "prettier": "^2.8.3",
+    "ttf2woff2": "^5.0.0",
+    "wawoff2": "^2.0.1",
+    "woff2": "^1.0.0",
+    "woff2-next": "0.0.1"
   },
   "ava": {
     "timeout": "3m"
@@ -38,7 +43,8 @@
     "build:debug": "napi build --platform",
     "prepublishOnly": "napi prepublish -t npm",
     "test": "ava",
-    "version": "napi version"
+    "version": "napi version",
+    "bench": "node bench.mjs"
   },
   "prettier": {
     "printWidth": 120,

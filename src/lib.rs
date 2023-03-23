@@ -1,5 +1,7 @@
 #![deny(clippy::all)]
 
+use std::ffi::CString;
+
 use napi::{bindgen_prelude::*, JsBuffer};
 use woff2::Woff2MemoryOut;
 
@@ -7,6 +9,8 @@ use woff2::Woff2MemoryOut;
 extern crate napi_derive;
 
 mod woff2 {
+  use std::ffi::c_char;
+
   #[repr(C)]
   pub struct Woff2MemoryOutInner {
     _unused: [u8; 0],
@@ -17,6 +21,23 @@ mod woff2 {
     pub data: *const u8,
     pub length: usize,
     inner: *mut Woff2MemoryOutInner,
+  }
+
+  #[repr(C)]
+  pub struct Woff2EncodeParams {
+    pub extended_metadata: *const c_char,
+    pub brotli_quality: i32,
+    pub allow_transforms: bool,
+  }
+
+  impl Default for Woff2EncodeParams {
+    fn default() -> Self {
+      Self {
+        extended_metadata: std::ptr::null(),
+        brotli_quality: 11,
+        allow_transforms: true,
+      }
+    }
   }
 
   unsafe impl Send for Woff2MemoryOut {}
@@ -38,6 +59,7 @@ mod woff2 {
       length: usize,
       result: *mut u8,
       result_length: *mut usize,
+      params: Woff2EncodeParams,
     ) -> bool;
     pub fn ConvertWOFF2ToTTF(data: *const u8, length: usize, out: *mut Woff2MemoryOut) -> bool;
     pub fn FreeMemoryOutput(out: *mut Woff2MemoryOutInner);
@@ -46,7 +68,7 @@ mod woff2 {
 
 // `#[inline]` always causes llvm codegen error on i686-pc-windows-msvc
 #[cfg_attr(not(target_arch = "x86"), inline)]
-fn convert_to_woff2(input_buf_value: &[u8]) -> Result<Vec<u8>> {
+fn convert_to_woff2(input_buf_value: &[u8], params: woff2::Woff2EncodeParams) -> Result<Vec<u8>> {
   let len =
     unsafe { woff2::MaxWOFF2CompressedSize(input_buf_value.as_ptr(), input_buf_value.len()) };
   let mut output_buf = Vec::with_capacity(len);
@@ -57,6 +79,7 @@ fn convert_to_woff2(input_buf_value: &[u8]) -> Result<Vec<u8>> {
       input_buf_value.len(),
       output_buf.as_mut_ptr(),
       &mut output_buf_len as *mut usize,
+      params,
     )
   };
   if !ok {
@@ -89,14 +112,15 @@ fn convert_to_ttf(input_buf_value: &[u8]) -> Result<Woff2MemoryOut> {
 }
 
 #[napi(js_name = "convertTTFToWOFF2")]
-pub fn convert_ttf_to_woff2(input: JsBuffer) -> Result<Buffer> {
+pub fn convert_ttf_to_woff2(input: JsBuffer, params: Option<Woff2Params>) -> Result<Buffer> {
   let input_buf_value = input.into_value()?;
 
-  Ok(convert_to_woff2(input_buf_value.as_ref())?.into())
+  Ok(convert_to_woff2(input_buf_value.as_ref(), (&params).into())?.into())
 }
 
 pub struct ConvertTTFToWOFF2Task {
   input: Buffer,
+  params: Option<Woff2Params>,
 }
 
 #[napi]
@@ -105,19 +129,50 @@ impl Task for ConvertTTFToWOFF2Task {
   type JsValue = Buffer;
 
   fn compute(&mut self) -> Result<Self::Output> {
-    convert_to_woff2(self.input.as_ref())
+    convert_to_woff2(self.input.as_ref(), (&self.params).into())
   }
   fn resolve(&mut self, _env: Env, output: Self::Output) -> Result<Self::JsValue> {
     Ok(output.into())
   }
 }
 
+#[napi(object)]
+#[derive(Clone, Debug)]
+pub struct Woff2Params {
+  pub extended_metadata: Option<String>,
+  pub brotli_quality: Option<u8>,
+  pub allow_transforms: Option<bool>,
+}
+
+impl From<&Option<Woff2Params>> for woff2::Woff2EncodeParams {
+  fn from(params: &Option<Woff2Params>) -> Self {
+    if let Some(params) = params {
+      Self {
+        extended_metadata: CString::new(
+          params
+            .extended_metadata
+            .as_ref()
+            .map(|s| s.clone())
+            .unwrap_or_else(String::new),
+        )
+        .unwrap()
+        .into_raw(),
+        brotli_quality: params.brotli_quality.unwrap_or(11) as i32,
+        allow_transforms: params.allow_transforms.unwrap_or(true),
+      }
+    } else {
+      Self::default()
+    }
+  }
+}
+
 #[napi(js_name = "convertTTFToWOFF2Async")]
 pub fn convert_ttf_to_woff2_async(
   input: Buffer,
+  params: Option<Woff2Params>,
   signal: Option<AbortSignal>,
 ) -> AsyncTask<ConvertTTFToWOFF2Task> {
-  AsyncTask::with_optional_signal(ConvertTTFToWOFF2Task { input }, signal)
+  AsyncTask::with_optional_signal(ConvertTTFToWOFF2Task { input, params }, signal)
 }
 
 pub struct ConvertWOFF2ToTTFTask {

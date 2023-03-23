@@ -25,6 +25,16 @@ test('should be able to convert ttf to woff2 async', async (t) => {
   t.is(fontkit.openSync(woff2Buffer).stream.length, woff2Buffer.length)
 })
 
+test('should be able to convert ttf to woff2 async with params', async (t) => {
+  const woff2Buffer = await convertTTFToWOFF2Async(fixture, {
+    brotliQuality: 7,
+  })
+
+ t.is(fontkit.openSync(woff2Buffer).type, 'WOFF2')
+ t.is(fontkit.openSync(woff2Buffer).directory.tag, 'wOF2')
+ t.is(fontkit.openSync(woff2Buffer).stream.length, woff2Buffer.length)
+})
+
 test('convert woff2 to ttf', (t) => {
   const ttfBuffer = convertWOFF2ToTTF(fontawesome)
 

@@ -11,7 +11,13 @@ napi = { version = "2", default-features = false, features = ["napi3"] }
 napi-derive = { version = "2" }
 
 [target.'cfg(not(target_os = "macos"))'.dependencies]
-brotli-ffi = { path = "./brotli/c" }
+brotli-ffi = { path = "./brotli/c", features = ["simd", "vector_scratch_space" ]}
+
+[target.'cfg(not(target_os = "linux"))'.dependencies]
+mimalloc-rust = "0.2"
+
+[target.'cfg(all(target_os = "linux", not(all(target_env = "musl", target_arch = "aarch64"))))'.dependencies]
+mimalloc-rust = { version = "0.2", features = ["local-dynamic-tls"] }
 
 [build-dependencies]
 napi-build = "2"

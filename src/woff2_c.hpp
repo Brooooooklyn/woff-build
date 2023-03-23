@@ -16,11 +16,18 @@ struct Woff2MemoryOut
   Woff2MemoryOutInner *inner;
 };
 
+struct Woff2EncodeParams
+{
+  const char *extended_metadata;
+  int brotli_quality;
+  bool allow_transforms;
+};
+
 extern "C"
 {
   size_t MaxWOFF2CompressedSize(const uint8_t *data, size_t length);
   bool ConvertTTFToWOFF2(const uint8_t *data, size_t length,
-                         uint8_t *result, size_t *result_length);
+                         uint8_t *result, size_t *result_length, Woff2EncodeParams params);
 
   bool ConvertWOFF2ToTTF(
       const uint8_t *data, size_t length, Woff2MemoryOut *out);

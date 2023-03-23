@@ -8,6 +8,10 @@ use woff2::Woff2MemoryOut;
 #[macro_use]
 extern crate napi_derive;
 
+#[cfg(not(all(target_os = "linux", target_env = "musl", target_arch = "aarch64")))]
+#[global_allocator]
+static ALLOC: mimalloc_rust::GlobalMiMalloc = mimalloc_rust::GlobalMiMalloc;
+
 mod woff2 {
   use std::ffi::c_char;
 

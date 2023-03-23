@@ -45,15 +45,16 @@ mod woff2 {
   impl Drop for Woff2MemoryOut {
     fn drop(&mut self) {
       unsafe {
-        if !self.inner.is_null() {
-          FreeMemoryOutput(self.inner);
-        }
+        // SAFETY: WE KNOW self.data IS LEAKED FROM A VALID VEC
+        // NOTE(CGQAQ): implicit drop here will free the memory
+        Vec::from_raw_parts(self.data as *mut u8, self.length, self.length);
       }
     }
   }
 
   extern "C" {
     pub fn MaxWOFF2CompressedSize(data: *const u8, length: usize) -> usize;
+    pub fn ComputeWOFF2FinalSize(data: *const u8, length: usize) -> usize;
     pub fn ConvertTTFToWOFF2(
       data: *const u8,
       length: usize,
@@ -61,7 +62,13 @@ mod woff2 {
       result_length: *mut usize,
       params: Woff2EncodeParams,
     ) -> bool;
-    pub fn ConvertWOFF2ToTTF(data: *const u8, length: usize, out: *mut Woff2MemoryOut) -> bool;
+    pub fn ConvertWOFF2ToTTF(
+      data: *const u8,
+      length: usize,
+      out_buffer: *const u8,
+      out_len: usize,
+      out: *mut Woff2MemoryOut,
+    ) -> bool;
     pub fn FreeMemoryOutput(out: *mut Woff2MemoryOutInner);
   }
 }
@@ -96,10 +103,25 @@ fn convert_to_woff2(input_buf_value: &[u8], params: woff2::Woff2EncodeParams) ->
 #[cfg_attr(not(target_arch = "x86"), inline)]
 fn convert_to_ttf(input_buf_value: &[u8]) -> Result<Woff2MemoryOut> {
   let mut output = std::mem::MaybeUninit::<woff2::Woff2MemoryOut>::uninit();
+  // the actually size could be larger than the `result_length`, give it a little more space
+  let out_buffer_len =
+    unsafe { woff2::ComputeWOFF2FinalSize(input_buf_value.as_ptr(), input_buf_value.len()) + 4096 };
+
+  if out_buffer_len == 0 {
+    return Err(Error::new(
+      Status::InvalidArg,
+      "Final result is zero sized".to_owned(),
+    ));
+  }
+
+  let out_buffer = Vec::leak(Vec::with_capacity(out_buffer_len)).as_mut_ptr();
+
   if !unsafe {
     woff2::ConvertWOFF2ToTTF(
       input_buf_value.as_ptr(),
       input_buf_value.len(),
+      out_buffer,
+      out_buffer_len,
       output.as_mut_ptr(),
     )
   } {

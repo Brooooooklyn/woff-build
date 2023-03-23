@@ -23,24 +23,17 @@ extern "C"
   }
 
   bool ConvertWOFF2ToTTF(
-      const uint8_t *data, size_t length, Woff2MemoryOut *out)
+      const uint8_t *data, size_t length,
+      uint8_t *out_buffer, size_t out_buffer_length,Woff2MemoryOut *out)
   {
     if (!data || !length || !out) {
       return false;
     }
 
-    std::allocator<uint8_t> alloc;
-    size_t result_length = woff2::ComputeWOFF2FinalSize(data, length);
-    if (result_length == 0)
-    {
-      return false;
-    }
-    // the actually size could be larger than the `result_length`, give it a little more space
-    uint8_t *result = alloc.allocate(result_length + 4096);
-    auto memory_out = new woff2::WOFF2MemoryOut(result, result_length + 4096);
+    auto memory_out = new woff2::WOFF2MemoryOut(out_buffer, out_buffer_length);
     out->inner = reinterpret_cast<Woff2MemoryOutInner *>(memory_out);
-    out->data = result;
-    out->length = result_length;
+    out->data = out_buffer;
+    out->length = out_buffer_length;
     return woff2::ConvertWOFF2ToTTF(data, length, memory_out);
   }
 

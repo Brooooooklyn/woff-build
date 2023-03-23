@@ -44,6 +44,14 @@ mod woff2 {
 
   impl Drop for Woff2MemoryOut {
     fn drop(&mut self) {
+      if !self.inner.is_null() {
+        unsafe {
+          // SAFETY: if self.inner is not null, it is a valid pointer
+          // and should be created by `ConvertWOFF2ToTTF`, which can
+          // be dealloced by `FreeMemoryOutput` safely
+          FreeMemoryOutput(self.inner);
+        }
+      }
       unsafe {
         // SAFETY: WE KNOW self.data IS LEAKED FROM A VALID VEC
         // NOTE(CGQAQ): implicit drop here will free the memory

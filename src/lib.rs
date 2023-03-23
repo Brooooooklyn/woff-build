@@ -118,7 +118,7 @@ fn convert_to_ttf(input_buf_value: &[u8]) -> Result<Woff2MemoryOut> {
   if out_buffer_len == 0 {
     return Err(Error::new(
       Status::InvalidArg,
-      "Final result is zero sized".to_owned(),
+      "Your input is invalid 'cause the output is zero in size".to_owned(),
     ));
   }
 

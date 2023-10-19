@@ -98,7 +98,7 @@ jobs:
     name: stable - ${{ matrix.settings.target }} - node@18
     runs-on: ${{ matrix.settings.host }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           submodules: true
       - name: Setup node
@@ -180,7 +180,7 @@ jobs:
           - '18'
     runs-on: ${{ matrix.settings.host }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Setup node
         uses: actions/setup-node@v3
         with:
@@ -211,7 +211,7 @@ jobs:
           - '18'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Setup node
         uses: actions/setup-node@v3
         with:
@@ -243,7 +243,7 @@ jobs:
           - '18'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Setup node
         uses: actions/setup-node@v3
         with:
@@ -277,7 +277,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: docker run --rm --privileged multiarch/qemu-user-static:register --reset
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
@@ -311,7 +311,7 @@ jobs:
       - build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
@@ -349,7 +349,7 @@ jobs:
       - test-linux-aarch64-gnu-binding
       - test-linux-aarch64-musl-binding
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Setup node
         uses: actions/setup-node@v3
         with:

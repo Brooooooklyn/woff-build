@@ -1,6 +1,6 @@
 # `@napi-rs/woff-build`
 
-![CI](https://github.com/Brooooooklyn/woff-build/workflows/CI/badge.svg)
+[![CI](https://github.com/Brooooooklyn/woff-build/actions/workflows/CI.yml/badge.svg)](https://github.com/Brooooooklyn/woff-build/actions/workflows/CI.yml)
 [![install size](https://packagephobia.com/badge?p=@napi-rs/woff-build)](https://packagephobia.com/result?p=@napi-rs/woff-build)
 [![Downloads](https://img.shields.io/npm/dm/@napi-rs/woff-build.svg?sanitize=true)](https://npmcharts.com/compare/@napi-rs/woff-build?minimal=true)
 

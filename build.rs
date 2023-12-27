@@ -1,5 +1,3 @@
-extern crate napi_build;
-
 fn main() {
   println!("cargo:rerun-if-changed=src/woff2_c.cpp");
   println!("cargo:rerun-if-changed=src/woff2_c.hpp");
@@ -98,8 +96,6 @@ fn main() {
       .unwrap();
       let gcc_version_trim = gcc_version.trim();
       builder
-        .flag("--sysroot=/aarch64-linux-musl-cross/aarch64-linux-musl")
-        .flag("--gcc-toolchain=aarch64-linux-musl-gcc")
         .include("/aarch64-linux-musl-cross/aarch64-linux-musl/include")
         .include(format!(
           "/aarch64-linux-musl-cross/aarch64-linux-musl/include/c++/{gcc_version_trim}"
@@ -140,14 +136,14 @@ fn main() {
           builder
             .include("/usr/aarch64-unknown-linux-gnu/aarch64-unknown-linux-gnu/sysroot/usr/include")
             .flag("--sysroot=/usr/aarch64-unknown-linux-gnu/aarch64-unknown-linux-gnu/sysroot");
-          println!("cargo:rustc-link-search=/usr/aarch64-unknown-linux-gnu/lib/llvm-15/lib");
+          println!("cargo:rustc-link-search=/usr/aarch64-unknown-linux-gnu/lib/llvm-16/lib");
           println!("cargo:rustc-link-search=/usr/aarch64-unknown-linux-gnu/lib");
           println!("cargo:rustc-link-search=/usr/aarch64-unknown-linux-gnu/aarch64-unknown-linux-gnu/sysroot/lib");
           println!("cargo:rustc-link-search=/usr/aarch64-unknown-linux-gnu/lib/gcc/aarch64-unknown-linux-gnu/4.8.5");
         }
         "x86_64" => {
-          builder.include("/usr/lib/llvm-15/include/c++/v1");
-          println!("cargo:rustc-link-search=/usr/lib/llvm-15/lib");
+          builder.include("/usr/lib/llvm-16/include/c++/v1");
+          println!("cargo:rustc-link-search=/usr/lib/llvm-16/lib");
         }
         "arm" => {
           let gcc_version = String::from_utf8(

@@ -21,10 +21,10 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@napi-rs/cli": "^2.14.5",
+    "@napi-rs/cli": "^2.17.0",
     "@yisibl/fontkit": "^2.0.2",
-    "ava": "^5.1.1",
-    "prettier": "^2.8.3"
+    "ava": "^5.3.1",
+    "prettier": "^3.1.1"
   },
   "ava": {
     "timeout": "3m"
@@ -47,12 +47,12 @@
     "singleQuote": true,
     "arrowParens": "always"
   },
-  "packageManager": "yarn@3.6.1",
+  "packageManager": "yarn@4.0.2",
   "funding": {
     "type": "github",
     "url": "https://github.com/sponsors/Brooooooklyn"
   },
   "dependencies": {
-    "ava": "^5.2.0"
+    "ava": "^6.0.1"
   }
 }

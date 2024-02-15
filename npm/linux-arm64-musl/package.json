@@ -1,9 +1,5 @@
 {
   "name": "@napi-rs/woff-build-linux-arm64-musl",
-  "version": "0.1.1",
-  "os": [
-    "linux"
-  ],
   "version": "0.1.2",
   "cpu": [
     "arm64"

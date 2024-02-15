@@ -1,9 +1,5 @@
 {
   "name": "@napi-rs/woff-build-darwin-x64",
-  "version": "0.1.1",
-  "os": [
-    "darwin"
-  ],
   "version": "0.1.2",
   "cpu": [
     "x64"

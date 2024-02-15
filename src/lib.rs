@@ -224,7 +224,9 @@ impl Task for ConvertWOFF2ToTTFTask {
 
   fn resolve(&mut self, env: Env, output: Self::Output) -> Result<Self::JsValue> {
     unsafe {
-      env.create_buffer_with_borrowed_data(output.data, output.length, output, |h, _| drop(h))
+      env.create_buffer_with_borrowed_data(output.data.cast_mut(), output.length, output, |h, _| {
+        drop(h)
+      })
     }
     .map(|b| b.into_raw())
   }
@@ -234,7 +236,7 @@ impl Task for ConvertWOFF2ToTTFTask {
 pub fn convert_woff2_to_ttf(env: Env, input: JsBuffer) -> Result<JsBuffer> {
   let input_buf_value = input.into_value()?;
   let o = convert_to_ttf(input_buf_value.as_ref())?;
-  unsafe { env.create_buffer_with_borrowed_data(o.data, o.length, o, |h, _| drop(h)) }
+  unsafe { env.create_buffer_with_borrowed_data(o.data.cast_mut(), o.length, o, |h, _| drop(h)) }
     .map(|b| b.into_raw())
 }
 

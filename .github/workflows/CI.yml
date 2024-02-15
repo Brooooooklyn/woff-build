@@ -55,8 +55,10 @@ jobs:
             build: yarn build
           - host: macos-latest
             target: aarch64-apple-darwin
+            setup: |
+              brew install llvm@17
             build: |
-              export PATH="$(brew --prefix llvm@15)/bin:$PATH"
+              export PATH="$(brew --prefix llvm@17)/bin:$PATH"
               cargo build --manifest-path brotli/c/Cargo.toml --release --target aarch64-apple-darwin --features "vector_scratch_space"
               rm -f brotli/c/target/aarch64-apple-darwin/release/libbrotli_ffi.dylib
               yarn build --target aarch64-apple-darwin
@@ -105,11 +107,18 @@ jobs:
         with:
           node-version: 20
           cache: yarn
+      - name: Print rustup toolchain version
+        shell: bash
+        id: rustup-version
+        run: |
+          export RUST_TOOLCHAIN_VERSION="$(grep 'channel' rust-toolchain.toml | head -1 | awk -F '"' '{print $2}')"
+          echo "Rust toolchain version: $RUST_TOOLCHAIN_VERSION"
+          echo "RUST_TOOLCHAIN_VERSION=$RUST_TOOLCHAIN_VERSION" >> "$GITHUB_OUTPUT"
       - name: Install
         uses: dtolnay/rust-toolchain@stable
         if: ${{ !matrix.settings.docker }}
         with:
-          toolchain: nightly-2023-12-27
+          toolchain: ${{ steps.rustup-version.outputs.RUST_TOOLCHAIN_VERSION }}
           targets: ${{ matrix.settings.target }}
       - name: Cache cargo
         uses: actions/cache@v4

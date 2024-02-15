@@ -4,6 +4,7 @@
   "os": [
     "linux"
   ],
+  "version": "0.1.2",
   "cpu": [
     "x64"
   ],
@@ -15,6 +16,13 @@
   "engines": {
     "node": ">= 10"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Brooooooklyn/woff-build.git"
+  },
+  "os": [
+    "linux"
+  ],
   "libc": [
     "glibc"
   ]

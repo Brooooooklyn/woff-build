@@ -1,6 +1,6 @@
-import { readFile } from 'fs/promises'
-import { join } from 'path'
-import { fileURLToPath } from 'url'
+import { readFile } from 'node:fs/promises'
+import { join } from 'node:path'
+import { fileURLToPath } from 'node:url'
 
 import test from 'ava'
 import * as fontkit from '@yisibl/fontkit'

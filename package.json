@@ -8,24 +8,26 @@
     "url": "git+https://github.com/Brooooooklyn/woff-build.git"
   },
   "napi": {
-    "name": "woff-build",
-    "triples": {
-      "defaults": true,
-      "additional": [
-        "aarch64-apple-darwin",
-        "aarch64-linux-android",
-        "aarch64-unknown-linux-gnu",
-        "aarch64-unknown-linux-musl",
-        "aarch64-pc-windows-msvc",
-        "x86_64-unknown-linux-musl",
-        "i686-pc-windows-msvc",
-        "armv7-linux-androideabi"
-      ]
-    }
+    "binaryName": "woff-build",
+    "targets": [
+      "x86_64-apple-darwin",
+      "x86_64-pc-windows-msvc",
+      "x86_64-unknown-linux-gnu",
+      "aarch64-apple-darwin",
+      "aarch64-linux-android",
+      "aarch64-unknown-linux-gnu",
+      "aarch64-unknown-linux-musl",
+      "aarch64-pc-windows-msvc",
+      "x86_64-unknown-linux-musl",
+      "i686-pc-windows-msvc",
+      "armv7-linux-androideabi",
+      "wasm32-wasi-preview1-threads"
+    ]
   },
   "license": "MIT",
   "devDependencies": {
-    "@napi-rs/cli": "^2.18.0",
+    "@napi-rs/cli": "^3.0.0-alpha.38",
+    "@napi-rs/wasm-runtime": "^0.1.1",
     "@yisibl/fontkit": "^2.0.2",
     "ava": "^6.1.1",
     "prettier": "^3.2.5"

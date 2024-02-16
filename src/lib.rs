@@ -3,14 +3,12 @@
 use std::ffi::CString;
 
 use napi::{bindgen_prelude::*, JsBuffer};
+use napi_derive::napi;
 use woff2::Woff2MemoryOut;
 
-#[macro_use]
-extern crate napi_derive;
-
-#[cfg(not(all(target_os = "linux", target_env = "musl", target_arch = "aarch64")))]
+#[cfg(not(target_family = "wasm"))]
 #[global_allocator]
-static ALLOC: mimalloc_rust::GlobalMiMalloc = mimalloc_rust::GlobalMiMalloc;
+static ALLOC: mimalloc::MiMalloc = mimalloc::MiMalloc;
 
 mod woff2 {
   use std::ffi::c_char;
@@ -184,9 +182,7 @@ impl From<&Option<Woff2Params>> for woff2::Woff2EncodeParams {
       Self {
         extended_metadata: CString::new(
           params
-            .extended_metadata
-            .as_ref()
-            .map(|s| s.clone())
+            .extended_metadata.clone()
             .unwrap_or_else(String::new),
         )
         .unwrap()

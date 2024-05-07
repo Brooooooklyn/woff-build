@@ -27,3 +27,8 @@ cc = "1"
 lto = true
 codegen-units = 1
 strip = "symbols"
+
+[profile.wasi]
+inherits = "release"
+lto = false
+codegen-units = 16

@@ -27,17 +27,17 @@ jobs:
       fail-fast: false
       matrix:
         settings:
-          - host: macos-14
+          - host: macos-latest
             target: x86_64-apple-darwin
             setup:
-              brew install llvm@17
+              brew install llvm
             build: |
-              export PATH="$(brew --prefix llvm@17)/bin:$PATH"
+              export PATH="$(brew --prefix llvm)/bin:$PATH"
               cargo build --manifest-path brotli/c/Cargo.toml --release --target x86_64-apple-darwin --features "vector_scratch_space"
               rm -f brotli/c/target/x86_64-apple-darwin/release/libbrotli_ffi.dylib
               yarn build --target x86_64-apple-darwin
           - host: windows-latest
-            build: yarn build
+            build: yarn build --target x86_64-pc-windows-msvc
             target: x86_64-pc-windows-msvc
           - host: windows-latest
             build: |
@@ -54,13 +54,13 @@ jobs:
           - host: ubuntu-latest
             target: x86_64-unknown-linux-musl
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine
-            build: yarn build
-          - host: macos-14
+            build: yarn build --target x86_64-unknown-linux-musl
+          - host: macos-latest
             target: aarch64-apple-darwin
             setup: |
-              brew install llvm@17
+              brew install llvm
             build: |
-              export PATH="$(brew --prefix llvm@17)/bin:$PATH"
+              export PATH="$(brew --prefix llvm)/bin:$PATH"
               cargo build --manifest-path brotli/c/Cargo.toml --release --target aarch64-apple-darwin --features "vector_scratch_space"
               rm -f brotli/c/target/aarch64-apple-darwin/release/libbrotli_ffi.dylib
               yarn build --target aarch64-apple-darwin
@@ -97,15 +97,15 @@ jobs:
           - host: windows-latest
             target: aarch64-pc-windows-msvc
             build: yarn build --target aarch64-pc-windows-msvc
-          - host: macos-14
-            target: wasm32-wasi-preview1-threads
+          - host: macos-latest
+            target: wasm32-wasip1-threads
             setup: |
-              wget https://github.com/WebAssembly/wasi-sdk/releases/download/wasi-sdk-21/wasi-sdk-21.0-macos.tar.gz
-              tar -xvf wasi-sdk-21.0-macos.tar.gz
+              wget https://github.com/WebAssembly/wasi-sdk/releases/download/wasi-sdk-22/wasi-sdk-22.0-macos.tar.gz
+              tar -xvf wasi-sdk-22.0-macos.tar.gz
             build: |
-              export WASI_SDK_PATH="$(pwd)/wasi-sdk-21.0"
-              yarn build --target wasm32-wasi-preview1-threads
-              
+              export WASI_SDK_PATH="$(pwd)/wasi-sdk-22.0"
+              yarn build:debug --target wasm32-wasip1-threads --profile wasi
+
     name: stable - ${{ matrix.settings.target }} - node@20
     runs-on: ${{ matrix.settings.host }}
     steps:
@@ -144,7 +144,7 @@ jobs:
       - uses: goto-bus-stop/setup-zig@v2
         if: ${{ matrix.settings.target == 'armv7-unknown-linux-gnueabihf' }}
         with:
-          version: 0.11.0
+          version: 0.12.0
       - name: Setup toolchain
         run: ${{ matrix.settings.setup }}
         if: ${{ matrix.settings.setup }}
@@ -191,10 +191,13 @@ jobs:
         settings:
           - host: windows-latest
             target: x86_64-pc-windows-msvc
-          - host: macos-14
+            architecture: x64
+          - host: macos-latest
             target: x86_64-apple-darwin
-          - host: macos-14
+            architecture: x64
+          - host: macos-latest
             target: aarch64-apple-darwin
+            architecture: arm64
         node:
           - '18'
           - '20'
@@ -203,18 +206,10 @@ jobs:
       - uses: actions/checkout@v4
       - name: Setup node
         uses: actions/setup-node@v4
-        if: startsWith(matrix.settings.target, 'x86_64')
         with:
           node-version: ${{ matrix.node }}
           cache: 'yarn'
-          architecture: 'x64'
-      - name: Setup node
-        uses: actions/setup-node@v4
-        if: startsWith(matrix.settings.target, 'aarch64')
-        with:
-          node-version: ${{ matrix.node }}
-          cache: 'yarn'
-          architecture: 'arm64'
+          architecture: ${{ matrix.settings.architecture }}
       - name: Install dependencies
         run: yarn install
       - name: Download artifacts
@@ -366,7 +361,7 @@ jobs:
 
   test-wasi-nodejs:
     name: Test wasi on Node.js
-    runs-on: macos-14
+    runs-on: macos-latest
     needs:
       - build
     steps:
@@ -374,7 +369,7 @@ jobs:
       - name: Download artifacts
         uses: actions/download-artifact@v4
         with:
-          name: bindings-wasm32-wasi-preview1-threads
+          name: bindings-wasm32-wasip1-threads
           path: artifacts
       - name: Setup node
         uses: actions/setup-node@v4
@@ -417,6 +412,8 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           path: artifacts
+      - name: create npm dirs
+        run: yarn napi create-npm-dirs
       - name: Move artifacts
         run: yarn artifacts
       - name: List packages

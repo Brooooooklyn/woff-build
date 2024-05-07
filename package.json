@@ -3,6 +3,7 @@
   "version": "0.2.0",
   "main": "index.js",
   "types": "index.d.ts",
+  "browser": "browser.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Brooooooklyn/woff-build.git"
@@ -26,8 +27,8 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@napi-rs/cli": "^3.0.0-alpha.38",
-    "@napi-rs/wasm-runtime": "^0.2.0",
+    "@napi-rs/cli": "^3.0.0-alpha.54",
+    "@napi-rs/wasm-runtime": "^0.2.3",
     "@yisibl/fontkit": "^2.0.2",
     "ava": "^6.1.1",
     "prettier": "^3.2.5"
@@ -49,6 +50,7 @@
   "files": [
     "index.js",
     "index.d.ts",
+    "browser.js",
     "README.md"
   ],
   "prettier": {

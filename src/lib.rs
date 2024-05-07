@@ -144,14 +144,12 @@ fn convert_to_ttf(input_buf_value: &[u8]) -> Result<Woff2MemoryOut> {
 }
 
 #[napi(js_name = "convertTTFToWOFF2")]
-pub fn convert_ttf_to_woff2(input: JsBuffer, params: Option<Woff2Params>) -> Result<Buffer> {
-  let input_buf_value = input.into_value()?;
-
-  Ok(convert_to_woff2(input_buf_value.as_ref(), (&params).into())?.into())
+pub fn convert_ttf_to_woff2(input: &[u8], params: Option<Woff2Params>) -> Result<Uint8Array> {
+  Ok(convert_to_woff2(input, (&params).into())?.into())
 }
 
 pub struct ConvertTTFToWOFF2Task {
-  input: Buffer,
+  input: Uint8Array,
   params: Option<Woff2Params>,
 }
 
@@ -181,9 +179,7 @@ impl From<&Option<Woff2Params>> for woff2::Woff2EncodeParams {
     if let Some(params) = params {
       Self {
         extended_metadata: CString::new(
-          params
-            .extended_metadata.clone()
-            .unwrap_or_else(String::new),
+          params.extended_metadata.clone().unwrap_or_else(String::new),
         )
         .unwrap()
         .into_raw(),
@@ -198,7 +194,7 @@ impl From<&Option<Woff2Params>> for woff2::Woff2EncodeParams {
 
 #[napi(js_name = "convertTTFToWOFF2Async")]
 pub fn convert_ttf_to_woff2_async(
-  input: Buffer,
+  input: Uint8Array,
   params: Option<Woff2Params>,
   signal: Option<AbortSignal>,
 ) -> AsyncTask<ConvertTTFToWOFF2Task> {
@@ -206,7 +202,7 @@ pub fn convert_ttf_to_woff2_async(
 }
 
 pub struct ConvertWOFF2ToTTFTask {
-  input: Buffer,
+  input: Uint8Array,
 }
 
 #[napi]
@@ -229,16 +225,15 @@ impl Task for ConvertWOFF2ToTTFTask {
 }
 
 #[napi(js_name = "convertWOFF2ToTTF")]
-pub fn convert_woff2_to_ttf(env: Env, input: JsBuffer) -> Result<JsBuffer> {
-  let input_buf_value = input.into_value()?;
-  let o = convert_to_ttf(input_buf_value.as_ref())?;
+pub fn convert_woff2_to_ttf(env: Env, input: &[u8]) -> Result<JsBuffer> {
+  let o = convert_to_ttf(input)?;
   unsafe { env.create_buffer_with_borrowed_data(o.data.cast_mut(), o.length, o, |h, _| drop(h)) }
     .map(|b| b.into_raw())
 }
 
 #[napi(js_name = "convertWOFF2ToTTFAsync")]
 pub fn convert_woff2_to_ttf_async(
-  input: Buffer,
+  input: Uint8Array,
   signal: Option<AbortSignal>,
 ) -> AsyncTask<ConvertWOFF2ToTTFTask> {
   AsyncTask::with_optional_signal(ConvertWOFF2ToTTFTask { input }, signal)

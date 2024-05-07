@@ -12,7 +12,7 @@ fn main() {
       std::env::set_var("CC", "clang-cl");
       std::env::set_var("CXX", "clang-cl");
     }
-    "wasm32-wasi-preview1-threads" => {}
+    "wasm32-wasip1-threads" => {}
     _ => {
       std::env::set_var("CC", "clang");
       std::env::set_var("CXX", "clang++");
@@ -38,7 +38,7 @@ fn main() {
   ))
   .unwrap_or(());
 
-  if compile_target_os == "macos" {
+  if compile_target_os == "macos" || compile_target_os == "wasi" {
     println!("cargo:rustc-link-lib=brotli_ffi");
   } else {
     println!("cargo:rustc-link-lib=static=brotli_ffi");
@@ -123,13 +123,12 @@ fn main() {
           "/usr/include/c++/{gcc_version_trim}/x86_64-alpine-linux-musl"
         ));
     }
-    "wasm32-wasi-preview1-threads" => {
+    "wasm32-wasip1-threads" => {
       builder.cpp_set_stdlib("c++");
       if let Ok(sdk) = std::env::var("WASI_SDK_PATH") {
         builder
           .compiler(&format!("{sdk}/bin/clang++"))
-          .flag("-nostdlib")
-          .archiver(&format!("{sdk}/bin/llvm-ar"));
+          .flag("-nostdlib");
         println!("cargo:rustc-link-search={sdk}/share/wasi-sysroot/lib/wasm32-wasi-threads");
         println!("cargo:rustc-link-lib=static=c++");
         println!("cargo:rustc-link-lib=static=c++abi");

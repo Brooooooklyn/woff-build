@@ -11,7 +11,7 @@ const fixture = await readFile(join(fileURLToPath(import.meta.url), '..', './ico
 const fontawesome = await readFile(join(fileURLToPath(import.meta.url), '..', './fa-brands-400-v6.2.woff2'))
 
 test('should be able to convert ttf to woff2', (t) => {
-  const woff2Buffer = convertTTFToWOFF2(fixture)
+  const woff2Buffer = Buffer.from(convertTTFToWOFF2(fixture))
   t.is(fontkit.openSync(woff2Buffer).type, 'WOFF2')
   t.is(fontkit.openSync(woff2Buffer).directory.tag, 'wOF2')
   t.is(fontkit.openSync(woff2Buffer).stream.length, woff2Buffer.length)

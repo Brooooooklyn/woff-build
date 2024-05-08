@@ -578,6 +578,7 @@ __metadata:
     "@napi-rs/wasm-runtime": "npm:^0.2.3"
     "@yisibl/fontkit": "npm:^2.0.2"
     ava: "npm:^6.1.1"
+    emnapi: "npm:^1.1.1"
     prettier: "npm:^3.2.5"
   languageName: unknown
   linkType: soft
@@ -1520,7 +1521,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"emnapi@npm:1.1.1":
+"emnapi@npm:1.1.1, emnapi@npm:^1.1.1":
   version: 1.1.1
   resolution: "emnapi@npm:1.1.1"
   peerDependencies:

@@ -378,6 +378,8 @@ jobs:
           cache: yarn
       - name: Install dependencies
         run: yarn install --immutable --mode=skip-build
+      - name: create npm dirs
+        run: yarn napi create-npm-dirs
       - name: Move artifacts
         run: yarn artifacts
         shell: bash

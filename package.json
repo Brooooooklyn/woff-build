@@ -22,7 +22,7 @@
       "x86_64-unknown-linux-musl",
       "i686-pc-windows-msvc",
       "armv7-linux-androideabi",
-      "wasm32-wasi-preview1-threads"
+      "wasm32-wasip1-threads"
     ]
   },
   "license": "MIT",
@@ -31,6 +31,7 @@
     "@napi-rs/wasm-runtime": "^0.2.3",
     "@yisibl/fontkit": "^2.0.2",
     "ava": "^6.1.1",
+    "emnapi": "^1.1.1",
     "prettier": "^3.2.5"
   },
   "ava": {

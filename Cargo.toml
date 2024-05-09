@@ -30,5 +30,4 @@ strip = "symbols"
 
 [profile.wasi]
 inherits = "release"
-lto = false
-codegen-units = 16
+lto = 'off'

@@ -104,6 +104,7 @@ jobs:
               tar -xvf wasi-sdk-22.0-macos.tar.gz
             build: |
               export WASI_SDK_PATH="$(pwd)/wasi-sdk-22.0"
+              export WASI_SYSROOT="$WASI_SDK_PATH/share/wasi-sysroot"
               yarn build:debug --target wasm32-wasip1-threads --profile wasi
 
     name: stable - ${{ matrix.settings.target }} - node@20
@@ -144,7 +145,7 @@ jobs:
       - uses: goto-bus-stop/setup-zig@v2
         if: ${{ matrix.settings.target == 'armv7-unknown-linux-gnueabihf' }}
         with:
-          version: 0.12.0
+          version: 0.13.0
       - name: Setup toolchain
         run: ${{ matrix.settings.setup }}
         if: ${{ matrix.settings.setup }}

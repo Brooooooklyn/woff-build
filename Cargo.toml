@@ -7,8 +7,8 @@ version = "0.0.0"
 crate-type = ["cdylib"]
 
 [dependencies]
-napi = { version = "2", default-features = false, features = ["napi3"] }
-napi-derive = { version = "2" }
+napi = { version = "3.0.0-alpha.7", default-features = false, features = ["napi3"] }
+napi-derive = { version = "3.0.0-alpha.5" }
 
 [target.'cfg(not(target_os = "macos"))'.dependencies]
 brotli-ffi = { path = "./brotli/c", features = ["vector_scratch_space" ]}

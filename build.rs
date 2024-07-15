@@ -105,6 +105,9 @@ fn main() {
           "/aarch64-linux-musl-cross/aarch64-linux-musl/include/c++/{gcc_version_trim}/aarch64-linux-musl"
         ));
     }
+    "x86_64-unknown-linux-gnu" => {
+      builder.include("/usr/lib/llvm-18/include/x86_64-pc-linux-gnu/c++/v1");
+    }
     "x86_64-unknown-linux-musl" => {
       let gcc_version = String::from_utf8(
         std::process::Command::new("ls")

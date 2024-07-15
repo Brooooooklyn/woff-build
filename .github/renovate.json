@@ -7,6 +7,11 @@
       "matchPackageNames": ["@napi/cli", "napi", "napi-build", "napi-derive"],
       "addLabels": ["napi-rs"],
       "groupName": "napi-rs"
+    },
+    {
+      "groupName": "rust toolchain",
+      "matchManagers": ["custom.regex"],
+      "matchDepNames": ["rustc"]
     }
   ],
   "commitMessagePrefix": "chore: ",

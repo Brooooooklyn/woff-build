@@ -61,7 +61,7 @@
     "singleQuote": true,
     "arrowParens": "always"
   },
-  "packageManager": "yarn@4.5.0",
+  "packageManager": "yarn@4.9.1",
   "funding": {
     "type": "github",
     "url": "https://github.com/sponsors/Brooooooklyn"

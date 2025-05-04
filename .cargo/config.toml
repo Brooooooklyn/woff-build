@@ -4,6 +4,8 @@ rustflags = ["-C", "link-args=/NODEFAULTLIB:libcmt.lib", "-C", "link-args=/FORCE
 rustflags = ["-C", "link-args=/NODEFAULTLIB:libcmt.lib", "-C", "link-args=/FORCE:MULTIPLE"]
 [target.aarch64-pc-windows-msvc]
 rustflags = ["-C", "link-args=/NODEFAULTLIB:libcmt.lib", "-C", "link-args=/FORCE:MULTIPLE"]
+[target.'cfg(target_env = "gnu")']
+rustflags = ["-C", "link-args=-Wl,-z,nodelete"]
 [target.aarch64-linux-android]
 linker = "aarch64-linux-android24-clang"
 rustflags = ["-C", "link-args=-Wl,--allow-multiple-definition"]
@@ -11,7 +13,4 @@ rustflags = ["-C", "link-args=-Wl,--allow-multiple-definition"]
 linker = "armv7a-linux-androideabi24-clang"
 rustflags = ["-C", "link-args=-Wl,--allow-multiple-definition"]
 [target.aarch64-unknown-linux-musl]
-linker = "aarch64-linux-musl-gcc"
 rustflags = ["-C", "target-feature=-crt-static"]
-[target.wasm32-wasip1-threads]
-linker = "wasm-ld"

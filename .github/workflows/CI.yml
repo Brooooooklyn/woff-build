@@ -33,44 +33,52 @@ jobs:
               brew install llvm
             build: |
               export PATH="$(brew --prefix llvm)/bin:$PATH"
-              cargo build --manifest-path brotli/c/Cargo.toml --release --target x86_64-apple-darwin --features "vector_scratch_space"
-              rm -f brotli/c/target/x86_64-apple-darwin/release/libbrotli_ffi.dylib
+              cargo build --manifest-path rust-brotli/Cargo.toml --release --target x86_64-apple-darwin --features "vector_scratch_space"
               yarn build --target x86_64-apple-darwin
           - host: windows-latest
-            build: yarn build --target x86_64-pc-windows-msvc
+            build: |
+              cargo build --manifest-path rust-brotli/Cargo.toml --release --target x86_64-pc-windows-msvc --features "vector_scratch_space"
+              yarn build --target x86_64-pc-windows-msvc
             target: x86_64-pc-windows-msvc
           - host: windows-latest
             build: |
+              cargo build --manifest-path rust-brotli/Cargo.toml --release --target i686-pc-windows-msvc --features "vector_scratch_space"
               yarn build --target i686-pc-windows-msvc
               yarn test
             target: i686-pc-windows-msvc
           - host: ubuntu-latest
             target: x86_64-unknown-linux-gnu
-            docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-debian
-            build: |-
-              set -e &&
-              rustup target add x86_64-unknown-linux-gnu &&
-              yarn build --target x86_64-unknown-linux-gnu
+            build: |
+              export CC=clang
+              export CXX=clang++
+              sudo apt-get update
+              sudo apt-get install -y libc++-dev
+              cargo-zigbuild build --manifest-path rust-brotli/Cargo.toml --release --target x86_64-unknown-linux-gnu.2.17 --features "vector_scratch_space"
+              yarn build --target x86_64-unknown-linux-gnu --use-napi-cross
           - host: ubuntu-latest
             target: x86_64-unknown-linux-musl
-            docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine
-            build: yarn build --target x86_64-unknown-linux-musl
+            build: |
+              sudo apt-get update
+              sudo apt-get install -y musl-dev libc++-dev
+              cargo-zigbuild build --manifest-path rust-brotli/Cargo.toml --release --target x86_64-unknown-linux-musl --features "vector_scratch_space"
+              yarn build:debug --target x86_64-unknown-linux-musl -x --profile wasi
           - host: macos-latest
             target: aarch64-apple-darwin
             setup: |
               brew install llvm
             build: |
               export PATH="$(brew --prefix llvm)/bin:$PATH"
-              cargo build --manifest-path brotli/c/Cargo.toml --release --target aarch64-apple-darwin --features "vector_scratch_space"
-              rm -f brotli/c/target/aarch64-apple-darwin/release/libbrotli_ffi.dylib
+              cargo build --manifest-path rust-brotli/Cargo.toml --release --target aarch64-apple-darwin --features "vector_scratch_space"
               yarn build --target aarch64-apple-darwin
-          - host: ubuntu-latest
+          - host: ubuntu-24.04-arm
             target: aarch64-unknown-linux-gnu
-            docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-debian-aarch64
-            build: |-
-              set -e &&
-              rustup target add aarch64-unknown-linux-gnu &&
-              yarn build --target aarch64-unknown-linux-gnu
+            build: |
+              export CC=clang
+              export CXX=clang++
+              sudo apt-get update
+              sudo apt-get install -y libc++-dev
+              cargo-zigbuild build --manifest-path rust-brotli/Cargo.toml --release --target aarch64-unknown-linux-gnu.2.17 --features "vector_scratch_space"
+              yarn build --target aarch64-unknown-linux-gnu --use-napi-cross
           - host: ubuntu-latest
             target: aarch64-linux-android
             build: |
@@ -78,6 +86,7 @@ jobs:
               touch "${ANDROID_NDK_LATEST_HOME}/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/${CLANG_VERSION}/lib/linux/aarch64/libgcc.a"
               chmod 777 "${ANDROID_NDK_LATEST_HOME}/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/${CLANG_VERSION}/lib/linux/aarch64/libgcc.a"
               echo "INPUT(-lunwind)" > "${ANDROID_NDK_LATEST_HOME}/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/${CLANG_VERSION}/lib/linux/aarch64/libgcc.a"
+              cargo build --manifest-path rust-brotli/Cargo.toml --release --target aarch64-linux-android --features "vector_scratch_space"
               yarn build --target aarch64-linux-android
           - host: ubuntu-latest
             target: armv7-linux-androideabi
@@ -86,28 +95,32 @@ jobs:
               touch "${ANDROID_NDK_LATEST_HOME}/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/${CLANG_VERSION}/lib/linux/arm/libgcc.a"
               chmod 777 "${ANDROID_NDK_LATEST_HOME}/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/${CLANG_VERSION}/lib/linux/arm/libgcc.a"
               echo "INPUT(-lunwind)" > "${ANDROID_NDK_LATEST_HOME}/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/${CLANG_VERSION}/lib/linux/arm/libgcc.a"
+              cargo build --manifest-path rust-brotli/Cargo.toml --release --target armv7-linux-androideabi --features "vector_scratch_space"
               yarn build --target armv7-linux-androideabi
-          - host: ubuntu-latest
+          - host: ubuntu-24.04-arm
             target: aarch64-unknown-linux-musl
-            docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine
-            build: |-
-              set -e &&
-              rustup target add aarch64-unknown-linux-musl &&
-              yarn build --target aarch64-unknown-linux-musl
+            build: |
+              sudo apt-get update
+              sudo apt-get install -y musl-dev libc++-dev
+              cargo-zigbuild build --manifest-path rust-brotli/Cargo.toml --release --target aarch64-unknown-linux-musl --features "vector_scratch_space"
+              yarn build:debug --target aarch64-unknown-linux-musl -x --profile wasi
           - host: windows-latest
             target: aarch64-pc-windows-msvc
-            build: yarn build --target aarch64-pc-windows-msvc
-          - host: macos-latest
+            build: |
+              cargo build --manifest-path rust-brotli/Cargo.toml --release --target aarch64-pc-windows-msvc --features "vector_scratch_space"
+              yarn build --target aarch64-pc-windows-msvc
+          - host: ubuntu-latest
             target: wasm32-wasip1-threads
             setup: |
-              wget https://github.com/WebAssembly/wasi-sdk/releases/download/wasi-sdk-22/wasi-sdk-22.0-macos.tar.gz
-              tar -xvf wasi-sdk-22.0-macos.tar.gz
+              mkdir -p $HOME/wasi-sdk
+              curl -L https://github.com/WebAssembly/wasi-sdk/releases/download/wasi-sdk-25/wasi-sdk-25.0-x86_64-linux.tar.gz | tar -xzf - -C $HOME/wasi-sdk --strip-components=1
+              echo "WASI_SDK_PATH=$HOME/wasi-sdk" >> $GITHUB_ENV
             build: |
-              export WASI_SDK_PATH="$(pwd)/wasi-sdk-22.0"
               export WASI_SYSROOT="$WASI_SDK_PATH/share/wasi-sysroot"
+              cargo build --manifest-path rust-brotli/Cargo.toml --release --target wasm32-wasip1-threads --features "vector_scratch_space"
               yarn build:debug --target wasm32-wasip1-threads --profile wasi
 
-    name: stable - ${{ matrix.settings.target }} - node@20
+    name: stable - ${{ matrix.settings.target }} - node@22
     runs-on: ${{ matrix.settings.host }}
     steps:
       - uses: actions/checkout@v4
@@ -117,7 +130,7 @@ jobs:
         uses: actions/setup-node@v4
         if: ${{ !matrix.settings.docker }}
         with:
-          node-version: 20
+          node-version: 22
           cache: yarn
       - name: Print rustup toolchain version
         shell: bash
@@ -143,9 +156,16 @@ jobs:
             target/
           key: ${{ matrix.settings.target }}-cargo-${{ matrix.settings.host }}
       - uses: goto-bus-stop/setup-zig@v2
-        if: ${{ matrix.settings.target == 'armv7-unknown-linux-gnueabihf' }}
+        if: ${{ contains(matrix.settings.target, 'linux') }}
         with:
           version: 0.13.0
+      - name: Install cargo-zigbuild
+        uses: taiki-e/install-action@v2
+        if: ${{ contains(matrix.settings.target, 'linux') }}
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          tool: cargo-zigbuild
       - name: Setup toolchain
         run: ${{ matrix.settings.setup }}
         if: ${{ matrix.settings.setup }}
@@ -160,19 +180,10 @@ jobs:
         uses: actions/setup-node@v4
         if: matrix.settings.target == 'i686-pc-windows-msvc'
         with:
-          node-version: 20
-          cache: yarn
+          node-version: 22
           architecture: x86
-      - name: Build in docker
-        uses: addnab/docker-run-action@v3
-        if: ${{ matrix.settings.docker }}
-        with:
-          image: ${{ matrix.settings.docker }}
-          options: '--user 0:0 -v ${{ github.workspace }}/.cargo-cache/git/db:/usr/local/cargo/git/db -v ${{ github.workspace }}/.cargo/registry/cache:/usr/local/cargo/registry/cache -v ${{ github.workspace }}/.cargo/registry/index:/usr/local/cargo/registry/index -v ${{ github.workspace }}:/build -w /build'
-          run: ${{ matrix.settings.build }}
       - name: Build
         run: ${{ matrix.settings.build }}
-        if: ${{ !matrix.settings.docker }}
         shell: bash
       - name: Upload artifact
         uses: actions/upload-artifact@v4
@@ -200,8 +211,8 @@ jobs:
             target: aarch64-apple-darwin
             architecture: arm64
         node:
-          - '18'
           - '20'
+          - '22'
     runs-on: ${{ matrix.settings.host }}
     steps:
       - uses: actions/checkout@v4
@@ -231,8 +242,8 @@ jobs:
       fail-fast: false
       matrix:
         node:
-          - '18'
           - '20'
+          - '22'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -261,8 +272,8 @@ jobs:
       fail-fast: false
       matrix:
         node:
-          - '18'
           - '20'
+          - '22'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -294,10 +305,9 @@ jobs:
       matrix:
         node:
           - '20'
-          - '21'
-    runs-on: ubuntu-latest
+          - '22'
+    runs-on: ubuntu-24.04-arm
     steps:
-      - run: docker run --rm --privileged multiarch/qemu-user-static:register --reset
       - uses: actions/checkout@v4
       - name: Download artifacts
         uses: actions/download-artifact@v4
@@ -312,11 +322,6 @@ jobs:
           yarn config set supportedArchitectures.cpu "arm64"
           yarn config set supportedArchitectures.libc "glibc"
           yarn install
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
-        with:
-          platforms: arm64
-      - run: docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
       - name: Setup and run tests
         uses: addnab/docker-run-action@v3
         with:
@@ -330,7 +335,7 @@ jobs:
     name: Test bindings on aarch64-unknown-linux-musl - node@lts
     needs:
       - build
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04-arm
     steps:
       - uses: actions/checkout@v4
       - name: Download artifacts
@@ -346,10 +351,6 @@ jobs:
           yarn config set supportedArchitectures.cpu "arm64"
           yarn config set supportedArchitectures.libc "musl"
           yarn install
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
-        with:
-          platforms: arm64
       - name: Setup and run tests
         uses: addnab/docker-run-action@v3
         with:
@@ -375,7 +376,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: yarn
       - name: Install dependencies
         run: yarn install --immutable --mode=skip-build
@@ -407,7 +408,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: yarn
       - name: Install dependencies
         run: yarn install

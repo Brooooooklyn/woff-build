@@ -13,4 +13,3 @@ export interface Woff2Params {
   brotliQuality?: number
   allowTransforms?: boolean
 }
-

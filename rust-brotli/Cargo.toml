@@ -1,0 +1,33 @@
+[package]
+name = "brotli-ffi"
+version = "1.1.2"
+authors = ["Daniel Reiter Horn <danielrh@dropbox.com>", "The Brotli Authors"]
+description = "A brotli compressor and decompressor that with an interface exactly matching https://github.com/google/brotli. All included code is safe except the thin exported C-compatible functions."
+license = "BSD-3-Clause/MIT"
+documentation = "https://github.com/dropbox/rust-brotli/blob/master/README.md"
+homepage = "https://github.com/dropbox/rust-brotli"
+repository = "https://github.com/dropbox/rust-brotli"
+keywords = ["brotli", "decompression", "lz77", "huffman", "nostd"]
+readme = "README.md"
+autobins = false
+edition = "2015"
+
+[lib]
+path="src/lib.rs"
+crate-type=["staticlib"]
+
+[profile.release]
+codegen-units = 1
+
+[dependencies]
+brotli = { git ="https://github.com/Brooooooklyn/rust-brotli", version="8.0.0", default-features=false, features=["ffi-api"]}
+
+[features]
+validation=["brotli/validation"]
+default=["std"]
+seccomp = ["brotli/seccomp"]
+std = ["brotli/std"]
+disable-timer = ["brotli/disable-timer"]
+benchmark = ["brotli/benchmark"]
+vector_scratch_space = ["brotli/vector_scratch_space"]
+simd = ["brotli/simd"]

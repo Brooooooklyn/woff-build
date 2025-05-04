@@ -45,8 +45,7 @@
     "build": "napi build --platform --release",
     "build:debug": "napi build --platform",
     "prepublishOnly": "napi prepublish -t npm",
-    "test": "ava",
-    "version": "napi version && git add npm"
+    "test": "ava"
   },
   "files": [
     "index.js",

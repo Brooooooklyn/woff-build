@@ -2,13 +2,17 @@
 
 use std::ffi::CString;
 
-use napi::{bindgen_prelude::*, JsBuffer};
+use napi::bindgen_prelude::*;
 use napi_derive::napi;
 use woff2::Woff2MemoryOut;
 
-#[cfg(not(target_family = "wasm"))]
+#[cfg(all(
+  not(target_arch = "x86"),
+  not(target_arch = "arm"),
+  not(target_family = "wasm")
+))]
 #[global_allocator]
-static ALLOC: mimalloc::MiMalloc = mimalloc::MiMalloc;
+static ALLOC: mimalloc_safe::MiMalloc = mimalloc_safe::MiMalloc;
 
 mod woff2 {
   use std::ffi::c_char;
@@ -201,14 +205,15 @@ pub fn convert_ttf_to_woff2_async(
   AsyncTask::with_optional_signal(ConvertTTFToWOFF2Task { input, params }, signal)
 }
 
-pub struct ConvertWOFF2ToTTFTask {
+pub struct ConvertWOFF2ToTTFTask<'env> {
   input: Uint8Array,
+  _marker: std::marker::PhantomData<&'env ()>,
 }
 
 #[napi]
-impl Task for ConvertWOFF2ToTTFTask {
+impl<'env> Task for ConvertWOFF2ToTTFTask<'env> {
   type Output = Woff2MemoryOut;
-  type JsValue = JsBuffer;
+  type JsValue = BufferSlice<'env>;
 
   fn compute(&mut self) -> Result<Self::Output> {
     convert_to_ttf(self.input.as_ref())
@@ -216,25 +221,34 @@ impl Task for ConvertWOFF2ToTTFTask {
 
   fn resolve(&mut self, env: Env, output: Self::Output) -> Result<Self::JsValue> {
     unsafe {
-      env.create_buffer_with_borrowed_data(output.data.cast_mut(), output.length, output, |h, _| {
-        drop(h)
-      })
+      BufferSlice::from_external(
+        &env,
+        output.data.cast_mut(),
+        output.length,
+        output,
+        |_, o| drop(o),
+      )
     }
-    .map(|b| b.into_raw())
   }
 }
 
 #[napi(js_name = "convertWOFF2ToTTF")]
-pub fn convert_woff2_to_ttf(env: Env, input: &[u8]) -> Result<JsBuffer> {
+pub fn convert_woff2_to_ttf(env: Env, input: &[u8]) -> Result<BufferSlice> {
   let o = convert_to_ttf(input)?;
-  unsafe { env.create_buffer_with_borrowed_data(o.data.cast_mut(), o.length, o, |h, _| drop(h)) }
-    .map(|b| b.into_raw())
+  unsafe { BufferSlice::from_external(&env, o.data.cast_mut(), o.length, o, |_, o| drop(o)) }
 }
 
 #[napi(js_name = "convertWOFF2ToTTFAsync")]
 pub fn convert_woff2_to_ttf_async(
+  _env: &Env,
   input: Uint8Array,
   signal: Option<AbortSignal>,
 ) -> AsyncTask<ConvertWOFF2ToTTFTask> {
-  AsyncTask::with_optional_signal(ConvertWOFF2ToTTFTask { input }, signal)
+  AsyncTask::with_optional_signal(
+    ConvertWOFF2ToTTFTask {
+      input,
+      _marker: std::marker::PhantomData,
+    },
+    signal,
+  )
 }

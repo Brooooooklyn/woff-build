@@ -33,7 +33,7 @@ const {
     const worker = new Worker(new URL('./wasi-worker-browser.mjs', import.meta.url), {
       type: 'module',
     })
-    
+
     return worker
   },
   overwriteImports(importObject) {
@@ -46,19 +46,13 @@ const {
     return importObject
   },
   beforeInit({ instance }) {
-    __napi_rs_initialize_modules(instance)
+    for (const name of Object.keys(instance.exports)) {
+      if (name.startsWith('__napi_register__')) {
+        instance.exports[name]()
+      }
+    }
   },
 })
-
-function __napi_rs_initialize_modules(__napiInstance) {
-  __napiInstance.exports['__napi_register__convert_ttf_to_woff2_0']?.()
-  __napiInstance.exports['__napi_register__ConvertTTFToWOFF2Task_impl_1']?.()
-  __napiInstance.exports['__napi_register__Woff2Params_struct_2']?.()
-  __napiInstance.exports['__napi_register__convert_ttf_to_woff2_async_3']?.()
-  __napiInstance.exports['__napi_register__ConvertWOFF2ToTTFTask_impl_4']?.()
-  __napiInstance.exports['__napi_register__convert_woff2_to_ttf_5']?.()
-  __napiInstance.exports['__napi_register__convert_woff2_to_ttf_async_6']?.()
-}
 export const convertTTFToWOFF2 = __napiModule.exports.convertTTFToWOFF2
 export const convertTTFToWOFF2Async = __napiModule.exports.convertTTFToWOFF2Async
 export const convertWOFF2ToTTF = __napiModule.exports.convertWOFF2ToTTF

@@ -56,11 +56,11 @@ const { instance: __napiInstance, module: __wasiModule, napiModule: __napiModule
       return 4
     }
   })(),
+  reuseWorker: true,
   wasi: __wasi,
   onCreateWorker() {
     const worker = new Worker(__nodePath.join(__dirname, 'wasi-worker.mjs'), {
       env: process.env,
-      execArgv: ['--experimental-wasi-unstable-preview1'],
     })
     worker.onmessage = ({ data }) => {
       __wasmCreateOnMessageForFsProxy(__nodeFs)(data)
@@ -77,19 +77,14 @@ const { instance: __napiInstance, module: __wasiModule, napiModule: __napiModule
     return importObject
   },
   beforeInit({ instance }) {
-    __napi_rs_initialize_modules(instance)
-  }
+    for (const name of Object.keys(instance.exports)) {
+      if (name.startsWith('__napi_register__')) {
+        instance.exports[name]()
+      }
+    }
+  },
 })
 
-function __napi_rs_initialize_modules(__napiInstance) {
-  __napiInstance.exports['__napi_register__convert_ttf_to_woff2_0']?.()
-  __napiInstance.exports['__napi_register__ConvertTTFToWOFF2Task_impl_1']?.()
-  __napiInstance.exports['__napi_register__Woff2Params_struct_2']?.()
-  __napiInstance.exports['__napi_register__convert_ttf_to_woff2_async_3']?.()
-  __napiInstance.exports['__napi_register__ConvertWOFF2ToTTFTask_impl_4']?.()
-  __napiInstance.exports['__napi_register__convert_woff2_to_ttf_5']?.()
-  __napiInstance.exports['__napi_register__convert_woff2_to_ttf_async_6']?.()
-}
 module.exports.convertTTFToWOFF2 = __napiModule.exports.convertTTFToWOFF2
 module.exports.convertTTFToWOFF2Async = __napiModule.exports.convertTTFToWOFF2Async
 module.exports.convertWOFF2ToTTF = __napiModule.exports.convertWOFF2ToTTF

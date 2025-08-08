@@ -28,7 +28,7 @@
   "license": "MIT",
   "devDependencies": {
     "@napi-rs/cli": "^3.0.0-alpha.72",
-    "@napi-rs/wasm-runtime": "^0.2.9",
+    "@napi-rs/wasm-runtime": "^1.0.0",
     "@yisibl/fontkit": "^2.0.2",
     "ava": "^6.3.0",
     "emnapi": "^1.4.3",

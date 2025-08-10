@@ -45,8 +45,8 @@ jobs:
           - host: ubuntu-latest
             target: x86_64-unknown-linux-gnu
             build: |
-              export CC=clang
-              export CXX=clang++
+              export TARGET_CC=clang
+              export TARGET_CXX=clang++
               sudo apt-get update
               sudo apt-get install -y libc++-dev
               cargo-zigbuild build --manifest-path rust-brotli/Cargo.toml --release --target x86_64-unknown-linux-gnu.2.17 --features "vector_scratch_space"
@@ -69,8 +69,8 @@ jobs:
           - host: ubuntu-24.04-arm
             target: aarch64-unknown-linux-gnu
             build: |
-              export CC=clang
-              export CXX=clang++
+              export TARGET_CC=clang
+              export TARGET_CXX=clang++
               sudo apt-get update
               sudo apt-get install -y libc++-dev
               cargo-zigbuild build --manifest-path rust-brotli/Cargo.toml --release --target aarch64-unknown-linux-gnu.2.17 --features "vector_scratch_space"

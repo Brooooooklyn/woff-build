@@ -7,8 +7,8 @@ version = "0.0.0"
 crate-type = ["cdylib"]
 
 [dependencies]
-napi = { version = "3.0.0-alpha", default-features = false, features = ["napi3"] }
-napi-derive = { version = "3.0.0-alpha" }
+napi = { version = "3.0.0", default-features = false, features = ["napi3"] }
+napi-derive = { version = "3.0.0" }
 brotli-ffi = { path = "./rust-brotli", features = ["vector_scratch_space" ]}
 
 [target.'cfg(all(not(target_os = "linux"), not(target_os = "freebsd"), not(target_arch = "arm"), not(target_arch = "x86"), not(target_family = "wasm")))'.dependencies]

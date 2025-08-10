@@ -68,7 +68,7 @@ function requireNative() {
     try {
       nativeBinding = require(process.env.NAPI_RS_NATIVE_LIBRARY_PATH);
     } catch (err) {
-      loadErrors.push(err);
+      loadErrors.push(err)
     }
   } else if (process.platform === 'android') {
     if (process.arch === 'arm64') {
@@ -78,11 +78,15 @@ function requireNative() {
         loadErrors.push(e)
       }
       try {
-        return require('@napi-rs/woff-build-android-arm64')
+        const binding = require('@napi-rs/woff-build-android-arm64')
+        const bindingPackageVersion = require('@napi-rs/woff-build-android-arm64/package.json').version
+        if (bindingPackageVersion !== '0.2.1' && process.env.NAPI_RS_ENFORCE_VERSION_CHECK && process.env.NAPI_RS_ENFORCE_VERSION_CHECK !== '0') {
+          throw new Error(`Native binding package version mismatch, expected 0.2.1 but got ${bindingPackageVersion}. You can reinstall dependencies to fix this issue.`)
+        }
+        return binding
       } catch (e) {
         loadErrors.push(e)
       }
-
     } else if (process.arch === 'arm') {
       try {
         return require('./woff-build.android-arm-eabi.node')
@@ -90,11 +94,15 @@ function requireNative() {
         loadErrors.push(e)
       }
       try {
-        return require('@napi-rs/woff-build-android-arm-eabi')
+        const binding = require('@napi-rs/woff-build-android-arm-eabi')
+        const bindingPackageVersion = require('@napi-rs/woff-build-android-arm-eabi/package.json').version
+        if (bindingPackageVersion !== '0.2.1' && process.env.NAPI_RS_ENFORCE_VERSION_CHECK && process.env.NAPI_RS_ENFORCE_VERSION_CHECK !== '0') {
+          throw new Error(`Native binding package version mismatch, expected 0.2.1 but got ${bindingPackageVersion}. You can reinstall dependencies to fix this issue.`)
+        }
+        return binding
       } catch (e) {
         loadErrors.push(e)
       }
-
     } else {
       loadErrors.push(new Error(`Unsupported architecture on Android ${process.arch}`))
     }
@@ -106,11 +114,15 @@ function requireNative() {
         loadErrors.push(e)
       }
       try {
-        return require('@napi-rs/woff-build-win32-x64-msvc')
+        const binding = require('@napi-rs/woff-build-win32-x64-msvc')
+        const bindingPackageVersion = require('@napi-rs/woff-build-win32-x64-msvc/package.json').version
+        if (bindingPackageVersion !== '0.2.1' && process.env.NAPI_RS_ENFORCE_VERSION_CHECK && process.env.NAPI_RS_ENFORCE_VERSION_CHECK !== '0') {
+          throw new Error(`Native binding package version mismatch, expected 0.2.1 but got ${bindingPackageVersion}. You can reinstall dependencies to fix this issue.`)
+        }
+        return binding
       } catch (e) {
         loadErrors.push(e)
       }
-
     } else if (process.arch === 'ia32') {
       try {
         return require('./woff-build.win32-ia32-msvc.node')
@@ -118,11 +130,15 @@ function requireNative() {
         loadErrors.push(e)
       }
       try {
-        return require('@napi-rs/woff-build-win32-ia32-msvc')
+        const binding = require('@napi-rs/woff-build-win32-ia32-msvc')
+        const bindingPackageVersion = require('@napi-rs/woff-build-win32-ia32-msvc/package.json').version
+        if (bindingPackageVersion !== '0.2.1' && process.env.NAPI_RS_ENFORCE_VERSION_CHECK && process.env.NAPI_RS_ENFORCE_VERSION_CHECK !== '0') {
+          throw new Error(`Native binding package version mismatch, expected 0.2.1 but got ${bindingPackageVersion}. You can reinstall dependencies to fix this issue.`)
+        }
+        return binding
       } catch (e) {
         loadErrors.push(e)
       }
-
     } else if (process.arch === 'arm64') {
       try {
         return require('./woff-build.win32-arm64-msvc.node')
@@ -130,26 +146,34 @@ function requireNative() {
         loadErrors.push(e)
       }
       try {
-        return require('@napi-rs/woff-build-win32-arm64-msvc')
+        const binding = require('@napi-rs/woff-build-win32-arm64-msvc')
+        const bindingPackageVersion = require('@napi-rs/woff-build-win32-arm64-msvc/package.json').version
+        if (bindingPackageVersion !== '0.2.1' && process.env.NAPI_RS_ENFORCE_VERSION_CHECK && process.env.NAPI_RS_ENFORCE_VERSION_CHECK !== '0') {
+          throw new Error(`Native binding package version mismatch, expected 0.2.1 but got ${bindingPackageVersion}. You can reinstall dependencies to fix this issue.`)
+        }
+        return binding
       } catch (e) {
         loadErrors.push(e)
       }
-
     } else {
       loadErrors.push(new Error(`Unsupported architecture on Windows: ${process.arch}`))
     }
   } else if (process.platform === 'darwin') {
     try {
-        return require('./woff-build.darwin-universal.node')
-      } catch (e) {
-        loadErrors.push(e)
+      return require('./woff-build.darwin-universal.node')
+    } catch (e) {
+      loadErrors.push(e)
+    }
+    try {
+      const binding = require('@napi-rs/woff-build-darwin-universal')
+      const bindingPackageVersion = require('@napi-rs/woff-build-darwin-universal/package.json').version
+      if (bindingPackageVersion !== '0.2.1' && process.env.NAPI_RS_ENFORCE_VERSION_CHECK && process.env.NAPI_RS_ENFORCE_VERSION_CHECK !== '0') {
+        throw new Error(`Native binding package version mismatch, expected 0.2.1 but got ${bindingPackageVersion}. You can reinstall dependencies to fix this issue.`)
       }
-      try {
-        return require('@napi-rs/woff-build-darwin-universal')
-      } catch (e) {
-        loadErrors.push(e)
-      }
-
+      return binding
+    } catch (e) {
+      loadErrors.push(e)
+    }
     if (process.arch === 'x64') {
       try {
         return require('./woff-build.darwin-x64.node')
@@ -157,11 +181,15 @@ function requireNative() {
         loadErrors.push(e)
       }
       try {
-        return require('@napi-rs/woff-build-darwin-x64')
+        const binding = require('@napi-rs/woff-build-darwin-x64')
+        const bindingPackageVersion = require('@napi-rs/woff-build-darwin-x64/package.json').version
+        if (bindingPackageVersion !== '0.2.1' && process.env.NAPI_RS_ENFORCE_VERSION_CHECK && process.env.NAPI_RS_ENFORCE_VERSION_CHECK !== '0') {
+          throw new Error(`Native binding package version mismatch, expected 0.2.1 but got ${bindingPackageVersion}. You can reinstall dependencies to fix this issue.`)
+        }
+        return binding
       } catch (e) {
         loadErrors.push(e)
       }
-
     } else if (process.arch === 'arm64') {
       try {
         return require('./woff-build.darwin-arm64.node')
@@ -169,11 +197,15 @@ function requireNative() {
         loadErrors.push(e)
       }
       try {
-        return require('@napi-rs/woff-build-darwin-arm64')
+        const binding = require('@napi-rs/woff-build-darwin-arm64')
+        const bindingPackageVersion = require('@napi-rs/woff-build-darwin-arm64/package.json').version
+        if (bindingPackageVersion !== '0.2.1' && process.env.NAPI_RS_ENFORCE_VERSION_CHECK && process.env.NAPI_RS_ENFORCE_VERSION_CHECK !== '0') {
+          throw new Error(`Native binding package version mismatch, expected 0.2.1 but got ${bindingPackageVersion}. You can reinstall dependencies to fix this issue.`)
+        }
+        return binding
       } catch (e) {
         loadErrors.push(e)
       }
-
     } else {
       loadErrors.push(new Error(`Unsupported architecture on macOS: ${process.arch}`))
     }
@@ -185,11 +217,15 @@ function requireNative() {
         loadErrors.push(e)
       }
       try {
-        return require('@napi-rs/woff-build-freebsd-x64')
+        const binding = require('@napi-rs/woff-build-freebsd-x64')
+        const bindingPackageVersion = require('@napi-rs/woff-build-freebsd-x64/package.json').version
+        if (bindingPackageVersion !== '0.2.1' && process.env.NAPI_RS_ENFORCE_VERSION_CHECK && process.env.NAPI_RS_ENFORCE_VERSION_CHECK !== '0') {
+          throw new Error(`Native binding package version mismatch, expected 0.2.1 but got ${bindingPackageVersion}. You can reinstall dependencies to fix this issue.`)
+        }
+        return binding
       } catch (e) {
         loadErrors.push(e)
       }
-
     } else if (process.arch === 'arm64') {
       try {
         return require('./woff-build.freebsd-arm64.node')
@@ -197,11 +233,15 @@ function requireNative() {
         loadErrors.push(e)
       }
       try {
-        return require('@napi-rs/woff-build-freebsd-arm64')
+        const binding = require('@napi-rs/woff-build-freebsd-arm64')
+        const bindingPackageVersion = require('@napi-rs/woff-build-freebsd-arm64/package.json').version
+        if (bindingPackageVersion !== '0.2.1' && process.env.NAPI_RS_ENFORCE_VERSION_CHECK && process.env.NAPI_RS_ENFORCE_VERSION_CHECK !== '0') {
+          throw new Error(`Native binding package version mismatch, expected 0.2.1 but got ${bindingPackageVersion}. You can reinstall dependencies to fix this issue.`)
+        }
+        return binding
       } catch (e) {
         loadErrors.push(e)
       }
-
     } else {
       loadErrors.push(new Error(`Unsupported architecture on FreeBSD: ${process.arch}`))
     }
@@ -209,106 +249,138 @@ function requireNative() {
     if (process.arch === 'x64') {
       if (isMusl()) {
         try {
-        return require('./woff-build.linux-x64-musl.node')
-      } catch (e) {
-        loadErrors.push(e)
-      }
-      try {
-        return require('@napi-rs/woff-build-linux-x64-musl')
-      } catch (e) {
-        loadErrors.push(e)
-      }
-
+          return require('./woff-build.linux-x64-musl.node')
+        } catch (e) {
+          loadErrors.push(e)
+        }
+        try {
+          const binding = require('@napi-rs/woff-build-linux-x64-musl')
+          const bindingPackageVersion = require('@napi-rs/woff-build-linux-x64-musl/package.json').version
+          if (bindingPackageVersion !== '0.2.1' && process.env.NAPI_RS_ENFORCE_VERSION_CHECK && process.env.NAPI_RS_ENFORCE_VERSION_CHECK !== '0') {
+            throw new Error(`Native binding package version mismatch, expected 0.2.1 but got ${bindingPackageVersion}. You can reinstall dependencies to fix this issue.`)
+          }
+          return binding
+        } catch (e) {
+          loadErrors.push(e)
+        }
       } else {
         try {
-        return require('./woff-build.linux-x64-gnu.node')
-      } catch (e) {
-        loadErrors.push(e)
-      }
-      try {
-        return require('@napi-rs/woff-build-linux-x64-gnu')
-      } catch (e) {
-        loadErrors.push(e)
-      }
-
+          return require('./woff-build.linux-x64-gnu.node')
+        } catch (e) {
+          loadErrors.push(e)
+        }
+        try {
+          const binding = require('@napi-rs/woff-build-linux-x64-gnu')
+          const bindingPackageVersion = require('@napi-rs/woff-build-linux-x64-gnu/package.json').version
+          if (bindingPackageVersion !== '0.2.1' && process.env.NAPI_RS_ENFORCE_VERSION_CHECK && process.env.NAPI_RS_ENFORCE_VERSION_CHECK !== '0') {
+            throw new Error(`Native binding package version mismatch, expected 0.2.1 but got ${bindingPackageVersion}. You can reinstall dependencies to fix this issue.`)
+          }
+          return binding
+        } catch (e) {
+          loadErrors.push(e)
+        }
       }
     } else if (process.arch === 'arm64') {
       if (isMusl()) {
         try {
-        return require('./woff-build.linux-arm64-musl.node')
-      } catch (e) {
-        loadErrors.push(e)
-      }
-      try {
-        return require('@napi-rs/woff-build-linux-arm64-musl')
-      } catch (e) {
-        loadErrors.push(e)
-      }
-
+          return require('./woff-build.linux-arm64-musl.node')
+        } catch (e) {
+          loadErrors.push(e)
+        }
+        try {
+          const binding = require('@napi-rs/woff-build-linux-arm64-musl')
+          const bindingPackageVersion = require('@napi-rs/woff-build-linux-arm64-musl/package.json').version
+          if (bindingPackageVersion !== '0.2.1' && process.env.NAPI_RS_ENFORCE_VERSION_CHECK && process.env.NAPI_RS_ENFORCE_VERSION_CHECK !== '0') {
+            throw new Error(`Native binding package version mismatch, expected 0.2.1 but got ${bindingPackageVersion}. You can reinstall dependencies to fix this issue.`)
+          }
+          return binding
+        } catch (e) {
+          loadErrors.push(e)
+        }
       } else {
         try {
-        return require('./woff-build.linux-arm64-gnu.node')
-      } catch (e) {
-        loadErrors.push(e)
-      }
-      try {
-        return require('@napi-rs/woff-build-linux-arm64-gnu')
-      } catch (e) {
-        loadErrors.push(e)
-      }
-
+          return require('./woff-build.linux-arm64-gnu.node')
+        } catch (e) {
+          loadErrors.push(e)
+        }
+        try {
+          const binding = require('@napi-rs/woff-build-linux-arm64-gnu')
+          const bindingPackageVersion = require('@napi-rs/woff-build-linux-arm64-gnu/package.json').version
+          if (bindingPackageVersion !== '0.2.1' && process.env.NAPI_RS_ENFORCE_VERSION_CHECK && process.env.NAPI_RS_ENFORCE_VERSION_CHECK !== '0') {
+            throw new Error(`Native binding package version mismatch, expected 0.2.1 but got ${bindingPackageVersion}. You can reinstall dependencies to fix this issue.`)
+          }
+          return binding
+        } catch (e) {
+          loadErrors.push(e)
+        }
       }
     } else if (process.arch === 'arm') {
       if (isMusl()) {
         try {
-        return require('./woff-build.linux-arm-musleabihf.node')
-      } catch (e) {
-        loadErrors.push(e)
-      }
-      try {
-        return require('@napi-rs/woff-build-linux-arm-musleabihf')
-      } catch (e) {
-        loadErrors.push(e)
-      }
-
+          return require('./woff-build.linux-arm-musleabihf.node')
+        } catch (e) {
+          loadErrors.push(e)
+        }
+        try {
+          const binding = require('@napi-rs/woff-build-linux-arm-musleabihf')
+          const bindingPackageVersion = require('@napi-rs/woff-build-linux-arm-musleabihf/package.json').version
+          if (bindingPackageVersion !== '0.2.1' && process.env.NAPI_RS_ENFORCE_VERSION_CHECK && process.env.NAPI_RS_ENFORCE_VERSION_CHECK !== '0') {
+            throw new Error(`Native binding package version mismatch, expected 0.2.1 but got ${bindingPackageVersion}. You can reinstall dependencies to fix this issue.`)
+          }
+          return binding
+        } catch (e) {
+          loadErrors.push(e)
+        }
       } else {
         try {
-        return require('./woff-build.linux-arm-gnueabihf.node')
-      } catch (e) {
-        loadErrors.push(e)
-      }
-      try {
-        return require('@napi-rs/woff-build-linux-arm-gnueabihf')
-      } catch (e) {
-        loadErrors.push(e)
-      }
-
+          return require('./woff-build.linux-arm-gnueabihf.node')
+        } catch (e) {
+          loadErrors.push(e)
+        }
+        try {
+          const binding = require('@napi-rs/woff-build-linux-arm-gnueabihf')
+          const bindingPackageVersion = require('@napi-rs/woff-build-linux-arm-gnueabihf/package.json').version
+          if (bindingPackageVersion !== '0.2.1' && process.env.NAPI_RS_ENFORCE_VERSION_CHECK && process.env.NAPI_RS_ENFORCE_VERSION_CHECK !== '0') {
+            throw new Error(`Native binding package version mismatch, expected 0.2.1 but got ${bindingPackageVersion}. You can reinstall dependencies to fix this issue.`)
+          }
+          return binding
+        } catch (e) {
+          loadErrors.push(e)
+        }
       }
     } else if (process.arch === 'riscv64') {
       if (isMusl()) {
         try {
-        return require('./woff-build.linux-riscv64-musl.node')
-      } catch (e) {
-        loadErrors.push(e)
-      }
-      try {
-        return require('@napi-rs/woff-build-linux-riscv64-musl')
-      } catch (e) {
-        loadErrors.push(e)
-      }
-
+          return require('./woff-build.linux-riscv64-musl.node')
+        } catch (e) {
+          loadErrors.push(e)
+        }
+        try {
+          const binding = require('@napi-rs/woff-build-linux-riscv64-musl')
+          const bindingPackageVersion = require('@napi-rs/woff-build-linux-riscv64-musl/package.json').version
+          if (bindingPackageVersion !== '0.2.1' && process.env.NAPI_RS_ENFORCE_VERSION_CHECK && process.env.NAPI_RS_ENFORCE_VERSION_CHECK !== '0') {
+            throw new Error(`Native binding package version mismatch, expected 0.2.1 but got ${bindingPackageVersion}. You can reinstall dependencies to fix this issue.`)
+          }
+          return binding
+        } catch (e) {
+          loadErrors.push(e)
+        }
       } else {
         try {
-        return require('./woff-build.linux-riscv64-gnu.node')
-      } catch (e) {
-        loadErrors.push(e)
-      }
-      try {
-        return require('@napi-rs/woff-build-linux-riscv64-gnu')
-      } catch (e) {
-        loadErrors.push(e)
-      }
-
+          return require('./woff-build.linux-riscv64-gnu.node')
+        } catch (e) {
+          loadErrors.push(e)
+        }
+        try {
+          const binding = require('@napi-rs/woff-build-linux-riscv64-gnu')
+          const bindingPackageVersion = require('@napi-rs/woff-build-linux-riscv64-gnu/package.json').version
+          if (bindingPackageVersion !== '0.2.1' && process.env.NAPI_RS_ENFORCE_VERSION_CHECK && process.env.NAPI_RS_ENFORCE_VERSION_CHECK !== '0') {
+            throw new Error(`Native binding package version mismatch, expected 0.2.1 but got ${bindingPackageVersion}. You can reinstall dependencies to fix this issue.`)
+          }
+          return binding
+        } catch (e) {
+          loadErrors.push(e)
+        }
       }
     } else if (process.arch === 'ppc64') {
       try {
@@ -317,11 +389,15 @@ function requireNative() {
         loadErrors.push(e)
       }
       try {
-        return require('@napi-rs/woff-build-linux-ppc64-gnu')
+        const binding = require('@napi-rs/woff-build-linux-ppc64-gnu')
+        const bindingPackageVersion = require('@napi-rs/woff-build-linux-ppc64-gnu/package.json').version
+        if (bindingPackageVersion !== '0.2.1' && process.env.NAPI_RS_ENFORCE_VERSION_CHECK && process.env.NAPI_RS_ENFORCE_VERSION_CHECK !== '0') {
+          throw new Error(`Native binding package version mismatch, expected 0.2.1 but got ${bindingPackageVersion}. You can reinstall dependencies to fix this issue.`)
+        }
+        return binding
       } catch (e) {
         loadErrors.push(e)
       }
-
     } else if (process.arch === 's390x') {
       try {
         return require('./woff-build.linux-s390x-gnu.node')
@@ -329,13 +405,69 @@ function requireNative() {
         loadErrors.push(e)
       }
       try {
-        return require('@napi-rs/woff-build-linux-s390x-gnu')
+        const binding = require('@napi-rs/woff-build-linux-s390x-gnu')
+        const bindingPackageVersion = require('@napi-rs/woff-build-linux-s390x-gnu/package.json').version
+        if (bindingPackageVersion !== '0.2.1' && process.env.NAPI_RS_ENFORCE_VERSION_CHECK && process.env.NAPI_RS_ENFORCE_VERSION_CHECK !== '0') {
+          throw new Error(`Native binding package version mismatch, expected 0.2.1 but got ${bindingPackageVersion}. You can reinstall dependencies to fix this issue.`)
+        }
+        return binding
       } catch (e) {
         loadErrors.push(e)
       }
-
     } else {
       loadErrors.push(new Error(`Unsupported architecture on Linux: ${process.arch}`))
+    }
+  } else if (process.platform === 'openharmony') {
+    if (process.arch === 'arm64') {
+      try {
+        return require('./woff-build.openharmony-arm64.node')
+      } catch (e) {
+        loadErrors.push(e)
+      }
+      try {
+        const binding = require('@napi-rs/woff-build-openharmony-arm64')
+        const bindingPackageVersion = require('@napi-rs/woff-build-openharmony-arm64/package.json').version
+        if (bindingPackageVersion !== '0.2.1' && process.env.NAPI_RS_ENFORCE_VERSION_CHECK && process.env.NAPI_RS_ENFORCE_VERSION_CHECK !== '0') {
+          throw new Error(`Native binding package version mismatch, expected 0.2.1 but got ${bindingPackageVersion}. You can reinstall dependencies to fix this issue.`)
+        }
+        return binding
+      } catch (e) {
+        loadErrors.push(e)
+      }
+    } else if (process.arch === 'x64') {
+      try {
+        return require('./woff-build.openharmony-x64.node')
+      } catch (e) {
+        loadErrors.push(e)
+      }
+      try {
+        const binding = require('@napi-rs/woff-build-openharmony-x64')
+        const bindingPackageVersion = require('@napi-rs/woff-build-openharmony-x64/package.json').version
+        if (bindingPackageVersion !== '0.2.1' && process.env.NAPI_RS_ENFORCE_VERSION_CHECK && process.env.NAPI_RS_ENFORCE_VERSION_CHECK !== '0') {
+          throw new Error(`Native binding package version mismatch, expected 0.2.1 but got ${bindingPackageVersion}. You can reinstall dependencies to fix this issue.`)
+        }
+        return binding
+      } catch (e) {
+        loadErrors.push(e)
+      }
+    } else if (process.arch === 'arm') {
+      try {
+        return require('./woff-build.openharmony-arm.node')
+      } catch (e) {
+        loadErrors.push(e)
+      }
+      try {
+        const binding = require('@napi-rs/woff-build-openharmony-arm')
+        const bindingPackageVersion = require('@napi-rs/woff-build-openharmony-arm/package.json').version
+        if (bindingPackageVersion !== '0.2.1' && process.env.NAPI_RS_ENFORCE_VERSION_CHECK && process.env.NAPI_RS_ENFORCE_VERSION_CHECK !== '0') {
+          throw new Error(`Native binding package version mismatch, expected 0.2.1 but got ${bindingPackageVersion}. You can reinstall dependencies to fix this issue.`)
+        }
+        return binding
+      } catch (e) {
+        loadErrors.push(e)
+      }
+    } else {
+      loadErrors.push(new Error(`Unsupported architecture on OpenHarmony: ${process.arch}`))
     }
   } else {
     loadErrors.push(new Error(`Unsupported OS: ${process.platform}, architecture: ${process.arch}`))
@@ -365,15 +497,17 @@ if (!nativeBinding || process.env.NAPI_RS_FORCE_WASI) {
 
 if (!nativeBinding) {
   if (loadErrors.length > 0) {
-    // TODO Link to documentation with potential fixes
-    //  - The package owner could build/publish bindings for this arch
-    //  - The user may need to bundle the correct files
-    //  - The user may need to re-install node_modules to get new packages
-    throw new Error('Failed to load native binding', { cause: loadErrors })
+    throw new Error(
+      `Cannot find native binding. ` +
+        `npm has a bug related to optional dependencies (https://github.com/npm/cli/issues/4828). ` +
+        'Please try `npm i` again after removing both package-lock.json and node_modules directory.',
+      { cause: loadErrors }
+    )
   }
   throw new Error(`Failed to load native binding`)
 }
 
+module.exports = nativeBinding
 module.exports.convertTTFToWOFF2 = nativeBinding.convertTTFToWOFF2
 module.exports.convertTTFToWOFF2Async = nativeBinding.convertTTFToWOFF2Async
 module.exports.convertWOFF2ToTTF = nativeBinding.convertWOFF2ToTTF

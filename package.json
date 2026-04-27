@@ -30,7 +30,7 @@
     "@napi-rs/cli": "^3.1.2",
     "@napi-rs/wasm-runtime": "^1.0.3",
     "@yisibl/fontkit": "^2.0.2",
-    "ava": "^7.0.0",
+    "ava": "^8.0.0",
     "emnapi": "^1.4.5",
     "prettier": "^3.6.2"
   },

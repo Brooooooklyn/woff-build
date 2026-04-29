@@ -7,10 +7,10 @@ import * as fontkit from '@yisibl/fontkit'
 
 import { convertTTFToWOFF2, convertTTFToWOFF2Async, convertWOFF2ToTTF, convertWOFF2ToTTFAsync } from '../index.js'
 
-const fixture = await readFile(join(fileURLToPath(import.meta.url), '..', './iconsfont.ttf'))
-const fontawesome = await readFile(join(fileURLToPath(import.meta.url), '..', './fa-brands-400-v6.2.woff2'))
+const dirname = join(fileURLToPath(import.meta.url), '..')
 
-test('should be able to convert ttf to woff2', (t) => {
+test('should be able to convert ttf to woff2', async (t) => {
+  const fixture = await readFile(join(dirname, './iconsfont.ttf'))
   const woff2Buffer = Buffer.from(convertTTFToWOFF2(fixture))
   t.is(fontkit.openSync(woff2Buffer).type, 'WOFF2')
   t.is(fontkit.openSync(woff2Buffer).directory.tag, 'wOF2')
@@ -18,7 +18,8 @@ test('should be able to convert ttf to woff2', (t) => {
 })
 
 test('should be able to convert ttf to woff2 async', async (t) => {
-   const woff2Buffer = await convertTTFToWOFF2Async(fixture)
+  const fixture = await readFile(join(dirname, './iconsfont.ttf'))
+  const woff2Buffer = await convertTTFToWOFF2Async(fixture)
 
   t.is(fontkit.openSync(woff2Buffer).type, 'WOFF2')
   t.is(fontkit.openSync(woff2Buffer).directory.tag, 'wOF2')
@@ -26,16 +27,18 @@ test('should be able to convert ttf to woff2 async', async (t) => {
 })
 
 test('should be able to convert ttf to woff2 async with params', async (t) => {
+  const fixture = await readFile(join(dirname, './iconsfont.ttf'))
   const woff2Buffer = await convertTTFToWOFF2Async(fixture, {
     brotliQuality: 7,
   })
 
- t.is(fontkit.openSync(woff2Buffer).type, 'WOFF2')
- t.is(fontkit.openSync(woff2Buffer).directory.tag, 'wOF2')
- t.is(fontkit.openSync(woff2Buffer).stream.length, woff2Buffer.length)
+  t.is(fontkit.openSync(woff2Buffer).type, 'WOFF2')
+  t.is(fontkit.openSync(woff2Buffer).directory.tag, 'wOF2')
+  t.is(fontkit.openSync(woff2Buffer).stream.length, woff2Buffer.length)
 })
 
-test('convert woff2 to ttf', (t) => {
+test('convert woff2 to ttf', async (t) => {
+  const fontawesome = await readFile(join(dirname, './fa-brands-400-v6.2.woff2'))
   const ttfBuffer = convertWOFF2ToTTF(fontawesome)
 
   t.is(fontkit.openSync(ttfBuffer).type, 'TTF')
@@ -43,7 +46,8 @@ test('convert woff2 to ttf', (t) => {
   t.is(fontkit.openSync(ttfBuffer).stream.length, ttfBuffer.length)
 })
 
-test('convert woff2 back to ttf', (t) => {
+test('convert woff2 back to ttf', async (t) => {
+  const fixture = await readFile(join(dirname, './iconsfont.ttf'))
   const woff2Buffer = convertTTFToWOFF2(fixture)
   const ttfBuffer = convertWOFF2ToTTF(woff2Buffer)
 
@@ -53,6 +57,7 @@ test('convert woff2 back to ttf', (t) => {
 })
 
 test('convert woff2 back to ttf async', async (t) => {
+  const fixture = await readFile(join(dirname, './iconsfont.ttf'))
   const woff2Buffer = await convertTTFToWOFF2Async(fixture)
   const ttfBuffer = await convertWOFF2ToTTFAsync(woff2Buffer)
 

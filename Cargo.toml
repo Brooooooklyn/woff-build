@@ -7,8 +7,8 @@ version = "0.0.0"
 crate-type = ["cdylib"]
 
 [dependencies]
-napi = { version = "3.0.0", default-features = false, features = ["napi3"] }
-napi-derive = { version = "3.0.0" }
+napi = { version = "3.10.0", default-features = false, features = ["napi3"] }
+napi-derive = { version = "3.5.8" }
 brotli-ffi = { path = "./rust-brotli", features = ["vector_scratch_space" ]}
 
 [target.'cfg(all(not(target_os = "linux"), not(target_os = "freebsd"), not(target_arch = "arm"), not(target_arch = "x86"), not(target_family = "wasm")))'.dependencies]
@@ -18,8 +18,8 @@ mimalloc-safe = { version = "0.1", features = ["skip_collect_on_exit"] }
 mimalloc-safe = { version = "0.1", features = ["skip_collect_on_exit", "local_dynamic_tls"] }
 
 [build-dependencies]
-napi-build = "2"
-cc = "1"
+napi-build = "2.3.2"
+cc = "1.2.65"
 
 [profile.release]
 lto = true

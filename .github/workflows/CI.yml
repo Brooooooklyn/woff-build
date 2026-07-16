@@ -387,7 +387,7 @@ jobs:
       - name: Run tests
         run: yarn test
         env:
-          NAPI_RS_FORCE_WASI: '1'
+          NAPI_RS_FORCE_WASI: 'error'
 
   publish:
     name: Publish

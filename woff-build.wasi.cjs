@@ -39,7 +39,7 @@ if (__nodeFs.existsSync(__wasmDebugFilePath)) {
   __wasmFilePath = __wasmDebugFilePath
 } else if (!__nodeFs.existsSync(__wasmFilePath)) {
   try {
-    __wasmFilePath = __nodePath.resolve('@napi-rs/woff-build-wasm32-wasi')
+    __wasmFilePath = require.resolve('@napi-rs/woff-build-wasm32-wasi/woff-build.wasm32-wasi.wasm')
   } catch {
     throw new Error('Cannot find woff-build.wasm32-wasi.wasm file, and @napi-rs/woff-build-wasm32-wasi package is not installed.')
   }

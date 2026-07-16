@@ -44,11 +44,14 @@ fn main() {
     ]);
 
   if compile_target.contains("windows") {
+    // Don't set static_crt explicitly: cc derives /MT vs /MD from the target's
+    // crt-static feature, keeping the woff2 objects consistent with the CRT used
+    // by rustc and dependencies like mimalloc. Forcing /MT here used to trigger
+    // LNK2038 RuntimeLibrary mismatch errors in the default (/MD) builds.
     builder
       .flag("/std:c++17")
       .flag("-Wno-unused-function")
-      .flag("-Wno-unused-parameter")
-      .static_crt(true);
+      .flag("-Wno-unused-parameter");
   } else {
     builder
       .flag("-std=c++17")

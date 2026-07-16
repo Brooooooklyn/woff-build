@@ -46,6 +46,7 @@
     "artifacts": "napi artifacts",
     "build": "napi build --platform --release",
     "build:debug": "napi build --platform",
+    "preversion": "yarn build:debug && git add .",
     "prepublishOnly": "napi prepublish -t npm",
     "test": "ava"
   },

@@ -14,6 +14,15 @@
       "matchDepNames": ["rustc"]
     }
   ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "managerFilePatterns": ["/^\\.github/workflows/.+\\.ya?ml$/"],
+      "matchStrings": [
+        "version:\\s*(?<currentValue>\\S+)\\s+#\\s*renovate:\\s*datasource=(?<datasource>\\S+)\\s+depName=(?<depName>\\S+)"
+      ]
+    }
+  ],
   "commitMessagePrefix": "chore: ",
   "commitMessageAction": "bump up",
   "commitMessageTopic": "{{depName}} version",

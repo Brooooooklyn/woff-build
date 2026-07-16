@@ -116,7 +116,7 @@ jobs:
               cargo build --manifest-path rust-brotli/Cargo.toml --release --target wasm32-wasip1-threads --features "vector_scratch_space"
               yarn build:debug --target wasm32-wasip1-threads --profile wasi
 
-    name: stable - ${{ matrix.settings.target }} - node@22
+    name: stable - ${{ matrix.settings.target }} - node@24
     runs-on: ${{ matrix.settings.host }}
     steps:
       - uses: actions/checkout@v6
@@ -126,7 +126,7 @@ jobs:
         uses: actions/setup-node@v6
         if: ${{ !matrix.settings.docker }}
         with:
-          node-version: 22
+          node-version: 24
           cache: yarn
       - name: Print rustup toolchain version
         shell: bash
@@ -154,7 +154,7 @@ jobs:
       - uses: goto-bus-stop/setup-zig@v2
         if: ${{ contains(matrix.settings.target, 'linux') }}
         with:
-          version: 0.14.1
+          version: 0.16.0 # renovate: datasource=github-tags depName=ziglang/zig
       - name: Install cargo-zigbuild
         uses: taiki-e/install-action@v2
         if: ${{ contains(matrix.settings.target, 'linux') }}
@@ -372,7 +372,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v6
         with:
-          node-version: 22
+          node-version: 24
           cache: yarn
       - name: Install dependencies
         run: yarn install --immutable --mode=skip-build

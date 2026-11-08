@@ -20,7 +20,7 @@ crate-type=["staticlib"]
 codegen-units = 1
 
 [dependencies]
-brotli = { git ="https://github.com/Brooooooklyn/rust-brotli", version="8.0.0", default-features=false, features=["ffi-api"]}
+brotli = { version="9.1.1", default-features=false, features=["ffi-api"]}
 
 [features]
 validation=["brotli/validation"]

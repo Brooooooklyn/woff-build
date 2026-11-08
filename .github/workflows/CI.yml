@@ -42,7 +42,7 @@ jobs:
               yarn build --target i686-pc-windows-msvc
               yarn test
             target: i686-pc-windows-msvc
-          - host: ubuntu-latest
+          - host: ubuntu-24.04
             target: x86_64-unknown-linux-gnu
             build: |
               export TARGET_CC=clang
@@ -52,7 +52,7 @@ jobs:
               cargo test --manifest-path rust-brotli/Cargo.toml --features "vector_scratch_space"
               cargo-zigbuild build --manifest-path rust-brotli/Cargo.toml --release --target x86_64-unknown-linux-gnu.2.17 --features "vector_scratch_space"
               yarn build --target x86_64-unknown-linux-gnu --use-napi-cross
-          - host: ubuntu-latest
+          - host: ubuntu-24.04
             target: x86_64-unknown-linux-musl
             build: |
               sudo apt-get update

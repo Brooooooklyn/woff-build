@@ -356,7 +356,7 @@ jobs:
           run: |
             set -e
             apk add --no-cache icu-data-full
-            yarn test
+            node --run test
 
   test-wasi-nodejs:
     name: Test wasi on Node.js

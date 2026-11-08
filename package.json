@@ -27,13 +27,13 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@emnapi/core": "^1.11.2",
-    "@emnapi/runtime": "^1.11.2",
-    "@napi-rs/cli": "^3.7.3",
-    "@napi-rs/wasm-runtime": "^1.1.6",
+    "@emnapi/core": "2.0.0-beta.3",
+    "@emnapi/runtime": "2.0.0-beta.3",
+    "@napi-rs/cli": "3.10.12",
+    "@napi-rs/wasm-runtime": "1.2.7",
     "@yisibl/fontkit": "^2.0.2",
     "ava": "^8.0.1",
-    "emnapi": "^1.11.2",
+    "emnapi": "2.0.0-beta.3",
     "prettier": "^3.9.5"
   },
   "ava": {
@@ -63,7 +63,7 @@
     "singleQuote": true,
     "arrowParens": "always"
   },
-  "packageManager": "yarn@4.17.1",
+  "packageManager": "yarn@4.18.1",
   "funding": {
     "type": "github",
     "url": "https://github.com/sponsors/Brooooooklyn"

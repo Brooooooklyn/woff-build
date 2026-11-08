@@ -65,3 +65,27 @@ test('convert woff2 back to ttf async', async (t) => {
   t.is(fontkit.openSync(ttfBuffer).directory.tag, '\x00\x01\x00\x00')
   t.is(fontkit.openSync(ttfBuffer).stream.length, ttfBuffer.length)
 })
+
+// Structurally valid single-table WOFF2 with an incomplete Brotli stream.
+// This checks the JS rejection paths, not the block-switch CVE regression in rust-brotli/src/lib.rs.
+function malformedBrotliWoff2() {
+  const font = Buffer.alloc(51)
+  font.write('wOF2')
+  font.writeUInt32BE(0x00010000, 4)
+  font.writeUInt32BE(font.length, 8)
+  font.writeUInt16BE(1, 12)
+  font.writeUInt32BE(32, 16)
+  font.writeUInt32BE(1, 20)
+  font[48] = 0 // cmap, untransformed
+  font[49] = 4 // original table length
+  font[50] = 0 // incomplete Brotli stream
+  return font
+}
+
+test('rejects malformed Brotli in WOFF2', (t) => {
+  t.throws(() => convertWOFF2ToTTF(malformedBrotliWoff2()), { message: 'ConvertWOFF2ToTTF failed' })
+})
+
+test('rejects malformed Brotli in WOFF2 asynchronously', async (t) => {
+  await t.throwsAsync(() => convertWOFF2ToTTFAsync(malformedBrotliWoff2()), { message: 'ConvertWOFF2ToTTF failed' })
+})

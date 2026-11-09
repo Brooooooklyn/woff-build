@@ -127,7 +127,7 @@ jobs:
         uses: actions/setup-node@v7
         if: ${{ !matrix.settings.docker }}
         with:
-          node-version: 24
+          node-version: 26
           cache: yarn
       - name: Print rustup toolchain version
         shell: bash
@@ -373,7 +373,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v7
         with:
-          node-version: 24
+          node-version: 26
           cache: yarn
       - name: Install dependencies
         run: yarn install --immutable --mode=skip-build
@@ -403,7 +403,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v7
         with:
-          node-version: 24
+          node-version: 26
           cache: yarn
       - name: Install dependencies
         run: yarn install

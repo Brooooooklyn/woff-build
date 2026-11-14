@@ -90,7 +90,7 @@ fn main() {
         builder
           .compiler(&format!("{sdk}/bin/clang++"))
           .flag("-nostdlib");
-        println!("cargo:rustc-link-search={sdk}/share/wasi-sysroot/lib/wasm32-wasi-threads");
+        println!("cargo:rustc-link-search={sdk}/share/wasi-sysroot/lib/wasm32-wasip1-threads");
         println!("cargo:rustc-link-lib=static=c++");
         println!("cargo:rustc-link-lib=static=c++abi");
       }

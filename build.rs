@@ -90,7 +90,13 @@ fn main() {
         builder
           .compiler(&format!("{sdk}/bin/clang++"))
           .flag("-nostdlib");
-        println!("cargo:rustc-link-search={sdk}/share/wasi-sysroot/lib/wasm32-wasi-threads");
+        let lib_dir = format!("{sdk}/share/wasi-sysroot/lib/wasm32-wasip1-threads");
+        println!("cargo:rustc-link-search={lib_dir}");
+        // WASI SDK 34+ splits libc++ into noeh/ and eh/; this crate is built with -fno-exceptions.
+        let noeh = format!("{lib_dir}/noeh");
+        if std::path::Path::new(&noeh).exists() {
+          println!("cargo:rustc-link-search={noeh}");
+        }
         println!("cargo:rustc-link-lib=static=c++");
         println!("cargo:rustc-link-lib=static=c++abi");
       }

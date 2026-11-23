@@ -33,11 +33,13 @@ jobs:
               yarn build --target x86_64-apple-darwin
           - host: windows-latest
             build: |
+              export PATH="/c/Program Files/LLVM/bin:$PATH"
               cargo build --manifest-path rust-brotli/Cargo.toml --release --target x86_64-pc-windows-msvc --features "vector_scratch_space"
               yarn build --target x86_64-pc-windows-msvc
             target: x86_64-pc-windows-msvc
           - host: windows-latest
             build: |
+              export PATH="/c/Program Files/LLVM/bin:$PATH"
               cargo build --manifest-path rust-brotli/Cargo.toml --release --target i686-pc-windows-msvc --features "vector_scratch_space"
               yarn build --target i686-pc-windows-msvc
               yarn test
@@ -104,6 +106,7 @@ jobs:
           - host: windows-latest
             target: aarch64-pc-windows-msvc
             build: |
+              export PATH="/c/Program Files/LLVM/bin:$PATH"
               cargo build --manifest-path rust-brotli/Cargo.toml --release --target aarch64-pc-windows-msvc --features "vector_scratch_space"
               yarn build --target aarch64-pc-windows-msvc
           - host: ubuntu-latest
@@ -164,6 +167,15 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
         with:
           tool: cargo-zigbuild
+      # windows-latest (windows-2025-vs2026) ships MSVC STL 14.52, which requires
+      # Clang 22+. The image's clang-cl is older, so install a current LLVM.
+      - name: Install LLVM
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          choco upgrade llvm --yes --no-progress
+          "C:\Program Files\LLVM\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+          & "C:\Program Files\LLVM\bin\clang-cl.exe" --version
       - name: Setup toolchain
         run: ${{ matrix.settings.setup }}
         if: ${{ matrix.settings.setup }}

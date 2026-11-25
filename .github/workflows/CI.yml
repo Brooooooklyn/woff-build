@@ -156,7 +156,7 @@ jobs:
             target/
           # Keep WASI native objects in sync with the SDK bundled by Rust 1.100.
           key: ${{ matrix.settings.target }}-cargo-${{ matrix.settings.host }}${{ matrix.settings.target == 'wasm32-wasip1-threads' && '-wasi-sdk-34' || '' }}
-      - uses: goto-bus-stop/setup-zig@v2
+      - uses: mlugg/setup-zig@v2
         if: ${{ contains(matrix.settings.target, 'linux') }}
         with:
           version: 0.16.0 # renovate: datasource=github-tags depName=ziglang/zig

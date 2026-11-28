@@ -27,13 +27,13 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@emnapi/core": "2.0.0-beta.4",
-    "@emnapi/runtime": "2.0.0-beta.4",
+    "@emnapi/core": "2.0.0-beta.5",
+    "@emnapi/runtime": "2.0.0-beta.5",
     "@napi-rs/cli": "3.11.1",
     "@napi-rs/wasm-runtime": "1.2.7",
     "@yisibl/fontkit": "^2.0.2",
     "ava": "^8.0.1",
-    "emnapi": "2.0.0-beta.4",
+    "emnapi": "2.0.0-beta.5",
     "prettier": "^3.9.5"
   },
   "ava": {
